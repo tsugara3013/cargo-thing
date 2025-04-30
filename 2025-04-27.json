@@ -1,0 +1,74 @@
+{
+    
+    "delivery1": {
+        "carType": "A",
+        "status": "plan",
+        "driver": "N",
+        "round": 1,
+        "from":"ch",
+        "to": {
+            "customer1": {
+                "checkLists": {
+                    "driver": [],
+                    "QC": [],
+                    "document": []
+                },
+                "pallet1": [ "thing1", "thing2", "thing3", "thing4", "thing5"
+                            ,"thing6"],
+                "pallet2": [ "thing1", "thing2", "thing3", "thing4"],
+                "pallet3": [ "thing1", "thing2", "thing3", "thing4"]
+                
+        },
+            "customer2": {
+                "checkLists": {
+                    "driver": [],
+                    "QC": [],
+                    "document": []
+                },
+                "pallet1": [ "thing1", "thing2", "thing3"],
+                "pallet2": [ "thing1", "thing2", "thing3"]
+            }
+        },
+        "start": "08:23",
+        "timeRecord": {
+            "customer1": ["timeTween","arriveTime", "waitTime","departTime"],
+            "customer2": ["timeTween","arriveTime", "waitTime", "departTime"]
+
+        },
+        "timeWaitTotal": "N/A",
+        "timeTakeTotal": "N/A",
+        "timeReturn": "18:42",
+        "timeTakeReturn": "03:22",
+        "end": "22:04"
+    },
+
+    "delivery2": {
+        "carType": "F",
+        "status": "plan",
+        "round": 1,
+        "driver": "F",
+        "from":"ch",
+        "to": {
+            "customer1": {
+                "checkLists": {
+                    "driver": [],
+                    "QC": [],
+                    "document": []
+                },
+                "pallet1": [ "thing1", "thing2", "thing3", "thing4", "thing5"
+                ,"thing6"
+                ]
+        }
+        },
+        "start": "09:42",
+        "timeRecord": {
+            "customer1": ["timeTween","arriveTime", "waitTime","departTime"]
+
+        },
+        "timeWaitTotal": "N/A",
+        "timeTakeTotal": "N/A",
+        "timeReturn": "12:10",
+        "timeTakeReturn": "02:01",
+        "end": "14:11"
+    }            
+}
