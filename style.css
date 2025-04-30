@@ -74,11 +74,6 @@ hr {
     font-weight: 800;
 }
 
-.choices li:hover {
-    cursor: pointer;
-    background-color: var(--clr-accblue);
-    color: var(--clr-accbrown);
-}
 nav {
     display: flex;
     gap: 10px;
@@ -106,11 +101,7 @@ nav {
 span {
     font-size: 20px;
 }
-.navTopLeft div:hover, .navTopLeft p:hover, .goBack:hover{
-    cursor: pointer;
-    background-color: var(--clr-accblue);
-    color: var(--clr-accbrown);
-}
+
 .divFirstTop {
     height: 300px;
     width: 95%;
@@ -179,13 +170,6 @@ span {
     background-color: var(--clr-accbrown);
 }
 
-.bottomMenu div:hover {
-    cursor: pointer;
-    background-color: var(--clr-accblue);
-    color: var(--clr-accbrown);
-    outline: 1px solid var(--clr-accred);
-}
-
 img {
     border-radius: 50%;
     height: 30px;
@@ -239,10 +223,6 @@ img {
     grid-template-rows: 1fr 4fr 1fr;
     grid-template-columns: 1fr;
     justify-content: center;
-}
-.items:hover {
-    mix-blend-mode: screen;
-    cursor: pointer;
 }
 
 .timer, .driver {
@@ -303,20 +283,6 @@ img {
     font-weight: 700;
 }
 
-.flipPages div:hover {
-    color: var(--clr-accbrown);
-    outline: none;
-    background-color: var(--clr-accgrey);
-    
-}
-
-.flipPages .middle, .flipPages .middle:hover {
-    outline: none;
-    background: none;
-    color: inherit;
-    cursor: default;
-}
-
 .itemsSections {
     height: auto;
     width: 90%;
@@ -346,4 +312,49 @@ img {
     display: flex;
     justify-content: center;
     overflow: hidden;
+}
+
+/* 30/4/25 learn that mobile don't have cursor and stuck :hover style when click on any element with css:hover on it */
+/* by take all css with :hover in this block below it disabled that for device that don't support :hover */
+
+@media (hover: hover) and (pointer: fine) {
+
+    .flipPages .middle, .flipPages .middle:hover {
+        outline: none;
+        background: none;
+        color: inherit;
+        cursor: default;
+    }
+
+    .choices li:hover {
+        cursor: pointer;
+        background-color: var(--clr-accblue);
+        color: var(--clr-accbrown);
+    }
+    .navTopLeft div:hover, .navTopLeft p:hover, .goBack:hover{
+        cursor: pointer;
+        background-color: var(--clr-accblue);
+        color: var(--clr-accbrown);
+    }
+    
+    .bottomMenu div:hover {
+        cursor: pointer;
+        background-color: var(--clr-accblue);
+        color: var(--clr-accbrown);
+        outline: 1px solid var(--clr-accred);
+    }
+    
+    .items:hover {
+        mix-blend-mode: screen;
+        cursor: pointer;
+    }
+
+    .flipPages div:hover {
+        color: var(--clr-accbrown);
+        outline: none;
+        background-color: var(--clr-accgrey);
+        
+    }
+    
+
 }
