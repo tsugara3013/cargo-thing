@@ -57,7 +57,31 @@
                 },
                 "pallet1": [ "thing1", "thing2", "thing3", "thing4", "thing5"
                 ,"thing6"
-                ]
+                ],
+                "pallet2": [ "thing1", "thing2", "thing3", "thing4"],
+                "pallet3": [ "thing1", "thing2", "thing3", "thing4"],
+                "pallet4": [ "thing1", "thing2", "thing3", "thing4"],
+                "pallet5": [ "thing1", "thing2", "thing3", "thing4"],
+                "pallet6": [ "thing1", "thing2", "thing3", "thing4"]
+        },
+        "customer2": {
+            "checkLists": {
+                "driver": [],
+                "QC": [],
+                "document": []
+            },
+            "pallet1": [ "thing1", "thing2", "thing3", "thing4", "thing5"
+                        ,"thing6"]
+            
+    },
+        "customer3": {
+            "checkLists": {
+                "driver": [],
+                "QC": [],
+                "document": []
+            },
+            "pallet1": [ "thing1", "thing2", "thing3"],
+            "pallet2": [ "thing1", "thing2", "thing3"]
         }
         },
         "start": "09:42",

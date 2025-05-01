@@ -1,10 +1,10 @@
 // start this again at 20/4/25
 // finally get json stuff at 27/4/25
 var jsonData = {}
-var jsonDataKeys = []
-var jsonKeysAmount = 0
+    ,jsonDataKeys = []
+    ,jsonKeysAmount = 0
 // for dynamic day select. will add function to control it later.
-var daySelect = "2025-04-27"
+    ,daySelect = "2025-04-27"
 
 
 // note to self: alway wrap everything in ".then" when work with json data,
@@ -19,10 +19,10 @@ fetch(daySelect + ".json").then(Response => Response.json())
 
 /** @type {HTMLElement} */
 var planCards = document.querySelector(".frontCard.plan")
-var prefab = planCards.querySelector(".items")
-var back = document.querySelector(".goBack")
-var frontpage = document.querySelector(".frontPage")
-var menu = document.querySelector("#menu")
+    ,prefab = planCards.querySelector(".items")
+    ,back = document.querySelector(".goBack")
+    ,frontpage = document.querySelector(".frontPage")
+    ,menu = document.querySelector("#menu")
 
 // create card from json file
 for (let i = 0; i < jsonKeysAmount; i++) {
@@ -84,7 +84,9 @@ var customersIn = document.querySelector(".temp")
 customersIn.innerHTML = ""
 var cargoCustomers = jsonData[forThis]["to"]
 var cargoCustomersKeys = Object.keys(cargoCustomers)
-document.querySelector(".secondInnerTop").querySelector(".driver").textContent = jsonData[forThis]["driver"] + jsonData[forThis]["round"]
+
+document.querySelector(".secondInnerTop").querySelector(".driver").textContent 
+= jsonData[forThis]["driver"] + jsonData[forThis]["round"]
 
 for (let i = 0; i < cargoCustomersKeys.length; i++) {
     let parent = customersIn
@@ -95,21 +97,100 @@ for (let i = 0; i < cargoCustomersKeys.length; i++) {
 }
 let palletParent = document.querySelector(".itemsSections")
 
+cargoCustomersKeys[0]
+
+if (document.querySelectorAll(".itemsSections".length > 1)) {
+while (document.querySelectorAll(".itemsSections").length > 1){
+    document.querySelector(".wrapper").removeChild(document.querySelector(".wrapper").lastElementChild)
+}
+}
+
+for (let i = 0; i < cargoCustomersKeys.length; i++) {
+    let newPage = palletParent.cloneNode(true)
+    /** @type {HTMLElement} */
+    var wrapper = document.querySelector(".wrapper")
+    newPage.classList.remove("hide")
+    wrapper.appendChild(newPage)
+        /** @type {HTMLCollection} */
+        var pages = document.querySelectorAll(".itemsSections")
+        var currentPageOffset = -wrapper.offsetWidth
+
+        pages.forEach(page => {
+            page.style.transform = `translateX(${currentPageOffset}px)`
+    
+        })
+    
+}
+
+
 while (palletParent.getElementsByClassName("items").length > 1){
     palletParent.removeChild(palletParent.lastElementChild)
 }
 
-
-let pallets = jsonData[forThis]["to"]["customer1"]
-let palletsKeys = Object.keys(pallets)
-    for (let i = 1; i < palletsKeys.length; i++){
+for (let i = 1; i < document.querySelectorAll(".itemsSections").length; i++) {
+    let pallets = jsonData[forThis]["to"][`customer${i}`]
+    let palletsKeys = Object.keys(pallets)
+    for (let j = 1; j < palletsKeys.length; j++){
     let palletsLayout = document.querySelector(".itemsSections").querySelector(".items")
     let palletGrid = palletsLayout.cloneNode(true)
-    palletParent.appendChild(palletGrid)
+    let currentParent = document.querySelectorAll(".itemsSections")
+
+    
+    currentParent[i].appendChild(palletGrid)
+
     palletGrid.classList.remove("hide")
-    palletGrid.textContent = palletsKeys[i]
+    palletGrid.textContent = palletsKeys[j]
+    
+}
+
 
 }
+
+
+let rightArrow = document.querySelector("#rightArrow")
+let leftArrow = document.querySelector("#leftArrow")
+
+function moveIt (side) {
+    /** @type {HTMLElement} */
+    let flipPage = document.querySelector(".wrapper")
+    let moveSize = flipPage.offsetWidth
+
+    currentPageOffset += moveSize * side
+
+    /** @type {HTMLCollection} */
+    pages = document.querySelectorAll(".itemsSections") 
+    // 1/5/25 got me so mad i have to change css width of them to 100% so there are no problem in calculation
+
+    pages.forEach(page => {
+        page.style.transform = `translateX(${currentPageOffset}px)`
+
+    })
+}
+
+var currentPage = 1
+    ,totalPage = document.querySelectorAll(".itemsSections").length
+
+rightArrow.addEventListener("click", () => {
+    if (totalPage > 0){
+    moveIt(-1)
+    currentPage += 1
+    console.log(currentPage)
+}
+})
+
+leftArrow.addEventListener("click", () => {
+    if (totalPage > 0) {
+    moveIt(1)
+    currentPage -= 1
+    console.log(currentPage)
+    }
+})
+
+function previousPage () {
+
+}
+
+
 
 
 }

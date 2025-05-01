@@ -285,17 +285,18 @@ img {
 
 .itemsSections {
     height: auto;
-    width: 90%;
+    width: 100%;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     gap: 5px;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     padding: 50px 20px;
     background-color: var(--clr-accgrey);
     margin: 10px;
     flex-shrink: 0;
-    margin: 20px 65px;
+    margin: 20px 0;
+    outline: 5px solid var(--clr-accbrown);
 }
 
 .itemsSections .items{
@@ -310,7 +311,7 @@ img {
     height: auto;
     width: 90%;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     overflow: hidden;
 }
 
