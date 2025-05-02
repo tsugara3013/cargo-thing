@@ -27,7 +27,7 @@ var planCards = document.querySelector(".frontCard.plan")
 // create card from json file
 for (let i = 0; i < jsonKeysAmount; i++) {
     // at first i use getElementByClassName cause json file don't have dot
-    // then i learn that i could use "." + and the name so i change
+    // then i learn that i could use "." + name so i change
     let parent = document.querySelector("." + jsonData[jsonDataKeys[i]].status)
     /** @type {HTMLDivElement} */
     let newDiv = prefab.cloneNode(true)
@@ -43,17 +43,22 @@ for (let i = 0; i < jsonKeysAmount; i++) {
 for (let j = 0; j < allCustomer.length; j++) {
     route[0].textContent = jsonData[jsonDataKeys[i]].from
     route[2].textContent = allCustomer[j]
+}    
 }
 
-    
-}
 
 var planClick = planCards.querySelectorAll(".items")
+
 
 if (back){
 back.addEventListener("click", () => {
     back.parentElement.parentElement.classList.toggle("hide")
     frontpage.classList.toggle("hide")
+    let thing = document.querySelector(".itemsSectionsOff")
+
+    if (thing) {
+        thing.classList.replace("itemsSectionsOff", "itemsSections")
+    }
 
 })
 }
@@ -64,6 +69,11 @@ menu.addEventListener("click", function() {
     back.parentElement.parentElement.classList.toggle("hide")
     var customersIn = document.querySelector(".temp")
     customersIn.innerHTML = ""
+    let thing = document.querySelector(".itemsSectionsOff")
+
+    if (thing) {
+        thing.classList.replace("itemsSectionsOff", "itemsSections")
+    }
 })
 
 
@@ -113,13 +123,12 @@ for (let i = 0; i < cargoCustomersKeys.length; i++) {
     wrapper.appendChild(newPage)
         /** @type {HTMLCollection} */
         var pages = document.querySelectorAll(".itemsSections")
-        var currentPageOffset = -wrapper.offsetWidth
+        var currentPageOffset = 0
 
         pages.forEach(page => {
             page.style.transform = `translateX(${currentPageOffset}px)`
     
-        })
-    
+        })    
 }
 
 
@@ -142,9 +151,9 @@ for (let i = 1; i < document.querySelectorAll(".itemsSections").length; i++) {
     palletGrid.textContent = palletsKeys[j]
     
 }
-
-
 }
+
+
 
 
 let rightArrow = document.querySelector("#rightArrow")
@@ -157,9 +166,28 @@ function moveIt (side) {
 
     currentPageOffset += moveSize * side
 
+    let previousCurrentPage = currentPage + side
+
+    if (currentPage === totalPage) {
+        currentPageOffset = 0
+        currentPage = 0
+    }
+
+    if (currentPage < 0) {
+        currentPageOffset = -flipPage.offsetWidth * (totalPage - 1)
+        currentPage = totalPage - 1
+    }
+
+    bottomLeftCorner[previousCurrentPage].style.outline = "none"
+    bottomLeftCorner[currentPage].style.outline = "2px solid black"
+
     /** @type {HTMLCollection} */
     pages = document.querySelectorAll(".itemsSections") 
     // 1/5/25 got me so mad i have to change css width of them to 100% so there are no problem in calculation
+
+    if (currentPage === 0) {
+        console.log("hello")
+    }
 
     pages.forEach(page => {
         page.style.transform = `translateX(${currentPageOffset}px)`
@@ -167,32 +195,38 @@ function moveIt (side) {
     })
 }
 
-var currentPage = 1
+document.querySelector(".itemsSections").classList.replace("itemsSections", "itemsSectionsOff")
+
+// decide to not do loop arrow for now cause it already took me 5 day and it still break
+// resort back to boring "go back if no data" type shyt
+
+var currentPage = 0
     ,totalPage = document.querySelectorAll(".itemsSections").length
 
+// console.log(totalPage)
+
 rightArrow.addEventListener("click", () => {
-    if (totalPage > 0){
-    moveIt(-1)
+    if (totalPage > 1){
     currentPage += 1
-    console.log(currentPage)
-}
+    moveIt(-1)
+    // console.log(currentPage)
+    return;
+    }
+    alert("only one customer")
 })
 
 leftArrow.addEventListener("click", () => {
-    if (totalPage > 0) {
-    moveIt(1)
+    if (totalPage > 1) {
     currentPage -= 1
-    console.log(currentPage)
+    moveIt(1)
+    // console.log(currentPage)
+    return;
     }
+    alert("only one customer")
 })
 
-function previousPage () {
-
-}
-
-
-
-
+let bottomLeftCorner = document.querySelectorAll(".temp p")
+    bottomLeftCorner[currentPage].style.outline = "2px solid black"
 }
 
 for (let i = 0; i < planClick.length; i++) {
@@ -203,5 +237,4 @@ for (let i = 0; i < planClick.length; i++) {
 
 
 })
-
 

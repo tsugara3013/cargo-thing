@@ -293,7 +293,6 @@ img {
     align-items: flex-start;
     padding: 50px 20px;
     background-color: var(--clr-accgrey);
-    margin: 10px;
     flex-shrink: 0;
     margin: 20px 0;
     outline: 5px solid var(--clr-accbrown);
