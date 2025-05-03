@@ -271,7 +271,7 @@ img {
     width: 100%;
 }
 
-.flipPages div {
+.flipPages #leftArrow, .flipPages #rightArrow {
     aspect-ratio: 1;
     height: 50px;
     justify-content: center;
@@ -314,17 +314,36 @@ img {
     overflow: hidden;
 }
 
+.flipPages .middle {
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+}
+
+.flipPages .middle .moreHelp {
+    background-color: white;
+    margin: 20px;
+    border-radius: 50%;
+    aspect-ratio: 1;
+    height: 20px;
+    outline: 2px solid black;
+}
+
+.foldPart {
+    background-color: var(--clr-accblue);
+    width: 20%;
+    margin-top: 20px;
+    padding: 10px;
+    align-items: center;
+    justify-content: space-around;
+    display: flex;
+    border-radius: 20px;
+}
+
 /* 30/4/25 learn that mobile don't have cursor and stuck :hover style when click on any element with css:hover on it */
 /* by take all css with :hover in this block below it disabled that for device that don't support :hover */
 
 @media (hover: hover) and (pointer: fine) {
-
-    .flipPages .middle, .flipPages .middle:hover {
-        outline: none;
-        background: none;
-        color: inherit;
-        cursor: default;
-    }
 
     .choices li:hover {
         cursor: pointer;
@@ -349,11 +368,21 @@ img {
         cursor: pointer;
     }
 
-    .flipPages div:hover {
+    .flipPages #leftArrow:hover, .flipPages #rightArrow:hover {
         color: var(--clr-accbrown);
         outline: none;
         background-color: var(--clr-accgrey);
         
+    }
+
+    .flipPages .middle .moreHelp:hover {
+        transform: translateY(-5px);
+        cursor: pointer;
+    }
+
+    .foldPart:hover {
+        cursor: pointer;
+        transform: translateY(10px);
     }
     
 

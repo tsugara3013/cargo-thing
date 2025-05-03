@@ -18,7 +18,8 @@ fetch(daySelect + ".json").then(Response => Response.json())
 
 
 /** @type {HTMLElement} */
-var planCards = document.querySelector(".frontCard.plan")
+var statusClick = document.querySelectorAll(".frontCard")
+    ,planCards = document.querySelector(".plan")
     ,prefab = planCards.querySelector(".items")
     ,back = document.querySelector(".goBack")
     ,frontpage = document.querySelector(".frontPage")
@@ -42,12 +43,9 @@ for (let i = 0; i < jsonKeysAmount; i++) {
 
 for (let j = 0; j < allCustomer.length; j++) {
     route[0].textContent = jsonData[jsonDataKeys[i]].from
-    route[2].textContent = allCustomer[j]
+    route[2].textContent = allCustomer.length + "   " + "customer"
 }    
 }
-
-
-var planClick = planCards.querySelectorAll(".items")
 
 
 if (back){
@@ -58,7 +56,9 @@ back.addEventListener("click", () => {
 
     if (thing) {
         thing.classList.replace("itemsSectionsOff", "itemsSections")
+        document.querySelector(".middle").innerHTML = ""
     }
+    document.querySelector(".divFirstTop").classList.remove("hide")
 
 })
 }
@@ -73,7 +73,9 @@ menu.addEventListener("click", function() {
 
     if (thing) {
         thing.classList.replace("itemsSectionsOff", "itemsSections")
+        document.querySelector(".middle").innerHTML = ""
     }
+    document.querySelector(".divFirstTop").classList.remove("hide")
 })
 
 
@@ -128,7 +130,12 @@ for (let i = 0; i < cargoCustomersKeys.length; i++) {
         pages.forEach(page => {
             page.style.transform = `translateX(${currentPageOffset}px)`
     
-        })    
+        })
+    let dotParent = document.querySelector(".middle")
+    let dotIn = document.createElement("div")
+    dotIn.classList.add("moreHelp")
+    dotIn.classList.add(i)
+    dotParent.prepend(dotIn)        
 }
 
 
@@ -137,7 +144,8 @@ while (palletParent.getElementsByClassName("items").length > 1){
 }
 
 for (let i = 1; i < document.querySelectorAll(".itemsSections").length; i++) {
-    let pallets = jsonData[forThis]["to"][`customer${i}`]
+    let beforePallet = Object.keys(jsonData[forThis]["to"])
+    let pallets = jsonData[forThis]["to"][beforePallet[i-1]]
     let palletsKeys = Object.keys(pallets)
     for (let j = 1; j < palletsKeys.length; j++){
     let palletsLayout = document.querySelector(".itemsSections").querySelector(".items")
@@ -149,6 +157,9 @@ for (let i = 1; i < document.querySelectorAll(".itemsSections").length; i++) {
 
     palletGrid.classList.remove("hide")
     palletGrid.textContent = palletsKeys[j]
+    palletGrid.addEventListener("click", () => {
+        alert(palletGrid.textContent)
+    })
     
 }
 }
@@ -159,10 +170,13 @@ for (let i = 1; i < document.querySelectorAll(".itemsSections").length; i++) {
 let rightArrow = document.querySelector("#rightArrow")
 let leftArrow = document.querySelector("#leftArrow")
 
+/** @type {HTMLElement} */
+var flipPage = document.querySelector(".wrapper")
+var moveSize = flipPage.offsetWidth
+var currentCustomer = document.querySelectorAll(".customers")
+var mobileCustomerDisplay = document.querySelector(".customerPages").querySelector("div")
+
 function moveIt (side) {
-    /** @type {HTMLElement} */
-    let flipPage = document.querySelector(".wrapper")
-    let moveSize = flipPage.offsetWidth
 
     currentPageOffset += moveSize * side
 
@@ -180,14 +194,15 @@ function moveIt (side) {
 
     bottomLeftCorner[previousCurrentPage].style.outline = "none"
     bottomLeftCorner[currentPage].style.outline = "2px solid black"
+    dotThings[previousCurrentPage].style.outline = "2px solid black"
+    dotThings[previousCurrentPage].style.backgroundColor = "white"
+    dotThings[currentPage].style.outline = "2px solid white"
+    dotThings[currentPage].style.backgroundColor = "var(--clr-accblue)"
+    mobileCustomerDisplay.textContent = currentCustomer[currentPage].textContent
 
     /** @type {HTMLCollection} */
     pages = document.querySelectorAll(".itemsSections") 
     // 1/5/25 got me so mad i have to change css width of them to 100% so there are no problem in calculation
-
-    if (currentPage === 0) {
-        console.log("hello")
-    }
 
     pages.forEach(page => {
         page.style.transform = `translateX(${currentPageOffset}px)`
@@ -212,7 +227,6 @@ rightArrow.addEventListener("click", () => {
     // console.log(currentPage)
     return;
     }
-    alert("only one customer")
 })
 
 leftArrow.addEventListener("click", () => {
@@ -222,16 +236,84 @@ leftArrow.addEventListener("click", () => {
     // console.log(currentPage)
     return;
     }
-    alert("only one customer")
 })
 
 let bottomLeftCorner = document.querySelectorAll(".temp p")
+/** @type {HTMLCollection} */
+let dotThings = document.querySelectorAll(".moreHelp")
     bottomLeftCorner[currentPage].style.outline = "2px solid black"
+    dotThings[currentPage].style.outline = "2px solid white"
+    dotThings[currentPage].style.backgroundColor = "var(--clr-accblue)"
+    mobileCustomerDisplay.textContent = currentCustomer[currentPage].textContent
+
+for (let i = 0; i < dotThings.length; i++) {
+    dotThings[i].addEventListener("click", () => {
+        moveItByClick(i, -moveSize * i)
+    })
 }
 
-for (let i = 0; i < planClick.length; i++) {
-    planClick[i].addEventListener("click", pullData)
+function moveItByClick (number, fixedPosition) {
+    let previousCurrentPage = currentPage
+    currentPage = number
+    currentPageOffset = fixedPosition
+    dotThings[previousCurrentPage].style.outline = "2px solid black"
+    dotThings[previousCurrentPage].style.backgroundColor = "white"
+    dotThings[currentPage].style.outline = "2px solid white"
+    dotThings[currentPage].style.backgroundColor = "var(--clr-accblue)"
+    bottomLeftCorner[previousCurrentPage].style.outline = "none"
+    bottomLeftCorner[currentPage].style.outline = "2px solid black"
+    mobileCustomerDisplay.textContent = currentCustomer[currentPage].textContent
+
+    /** @type {HTMLCollection} */
+    pages = document.querySelectorAll(".itemsSections") 
+    // 1/5/25 got me so mad i have to change css width of them to 100% so there are no problem in calculation
+
+    pages.forEach(page => {
+        page.style.transform = `translateX(${fixedPosition}px)`
+
+    })
+
+
+
 }
+
+
+if (window.innerWidth < 1000) {
+    document.querySelector(".divFirstTop").classList.add("hide")
+    foldPart.classList.remove("hide")
+}
+
+}
+
+for (let i = 0; i < statusClick.length; i++) {
+    let currentStatusClick = statusClick[i].querySelectorAll(".items")
+    if (currentStatusClick) {
+        for (let j = 0; j < currentStatusClick.length; j++) {
+            currentStatusClick[j].addEventListener("click", pullData)
+            currentStatusClick[j].addEventListener("click", () => {
+                console.log("hello")
+            })
+
+        }
+
+
+    }
+}
+let foldPart = document.querySelector(".foldPart")
+if (window.innerWidth < 1000) {
+foldPart.addEventListener("click", () => {
+    /** @type {HTMLElement} */
+    document.querySelector(".divFirstTop").classList.toggle("hide")
+    foldPart.firstElementChild.style.cssText = "transform: rotateX(-0.5turn);"
+    foldPart.lastElementChild.style.cssText = "transform: rotateX(-0.5turn);"
+    if (foldPart.children[1].textContent === "close"){
+        foldPart.children[1].textContent = "open"
+        foldPart.firstElementChild.style.cssText = "transform: rotateX(-1turn);"
+        foldPart.lastElementChild.style.cssText = "transform: rotateX(-1turn);"
+        return
+    }
+    foldPart.children[1].textContent = "close"
+})}
 
 
 
