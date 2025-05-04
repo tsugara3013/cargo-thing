@@ -24,6 +24,9 @@ var statusClick = document.querySelectorAll(".frontCard")
     ,back = document.querySelector(".goBack")
     ,frontpage = document.querySelector(".frontPage")
     ,menu = document.querySelector("#menu")
+    ,eventThing = 0
+    ,forThisCurrent = ""
+    ,currentPage = 0
 
 // create card from json file
 for (let i = 0; i < jsonKeysAmount; i++) {
@@ -83,6 +86,7 @@ function pullData () {
     frontpage.classList.toggle("hide")
     back.parentElement.parentElement.classList.toggle("hide")
     let forThis = this.id
+    currentPage = 0
 
 var leftIn = document.querySelector(".leftTopSide").getElementsByTagName("div")
 var rightIn = document.querySelector(".rightTopSide").getElementsByTagName("div")
@@ -164,6 +168,8 @@ for (let i = 1; i < document.querySelectorAll(".itemsSections").length; i++) {
 }
 }
 
+document.querySelector(".itemsSections").classList.replace("itemsSections", "itemsSectionsOff")
+
 
 
 
@@ -180,7 +186,7 @@ function moveIt (side) {
 
     currentPageOffset += moveSize * side
 
-    let previousCurrentPage = currentPage + side
+    var previousCurrentPage = currentPage + side
 
     if (currentPage === totalPage) {
         currentPageOffset = 0
@@ -210,16 +216,16 @@ function moveIt (side) {
     })
 }
 
-document.querySelector(".itemsSections").classList.replace("itemsSections", "itemsSectionsOff")
 
 // decide to not do loop arrow for now cause it already took me 5 day and it still break
 // resort back to boring "go back if no data" type shyt
 
-var currentPage = 0
-    ,totalPage = document.querySelectorAll(".itemsSections").length
+
+var totalPage = document.querySelectorAll(".itemsSections").length
 
 // console.log(totalPage)
 
+if (eventThing === 0) {
 rightArrow.addEventListener("click", () => {
     if (totalPage > 1){
     currentPage += 1
@@ -237,6 +243,8 @@ leftArrow.addEventListener("click", () => {
     return;
     }
 })
+eventThing += 1
+}
 
 let bottomLeftCorner = document.querySelectorAll(".temp p")
 /** @type {HTMLCollection} */
@@ -283,7 +291,78 @@ if (window.innerWidth < 1000) {
     foldPart.classList.remove("hide")
 }
 
+forThisCurrent = forThis
+
 }
+
+var checkListPage = document.querySelector(".checkListPage")
+var originalPosition = checkListPage.offsetTop
+var wrapper = document.querySelector(".wrapper")
+
+function checklistFromJSON (deliveryID) {
+    let customsCheckList = jsonData[deliveryID]["to"]
+    // this mean jsonData[delivery[number]]["to"]
+    let customsCheckListKeys = Object.keys(customsCheckList)
+    // get keys from previous variable above for access
+    let currentCheckListPage = customsCheckList[customsCheckListKeys[currentPage]]
+    // this mean jsonData[delivery[number]]["to"][customer${currentPage}]
+    let checkListAcess = currentCheckListPage["checkLists"]
+    // this mean jsonData[delivery[number]]["to"][customer${currentPage}]["checkLists"]
+    let roleCheckList = Object.keys(checkListAcess)
+    // get keys from previous variable above for access
+    var firstParent = document.querySelector(".checkFlip")
+
+    while (document.querySelectorAll(".checkWrap").length > 1) {
+        for (let k = 0; k < 3; k++){
+        document.querySelector(".checkFlip").removeChild(document.querySelector(".checkFlip").lastElementChild)
+        }
+    }
+    for (let i = 0; i < roleCheckList.length; i++) {
+        let subCheck = document.createElement("li")
+        let sepperate = document.createElement("hr")
+        let subWrap = document.createElement("div")
+        subWrap.classList.add("checkWrap")
+        subCheck.classList.add("aList")
+        firstParent.appendChild(subCheck)
+        firstParent.appendChild(sepperate)
+        firstParent.appendChild(subWrap)
+        subCheck.textContent = roleCheckList[i]
+        for (let j = 0; j < checkListAcess[roleCheckList[i]].length; j++) {
+            /** @type {HTMLElement} */
+            let inWrapPrefab = document.querySelector(".actualCheckList")
+            let secondparent = document.querySelectorAll(".checkWrap")
+            let cloneInWrap = inWrapPrefab.cloneNode(true)
+            cloneInWrap.querySelector("p").textContent = checkListAcess[roleCheckList[i]][j]
+            cloneInWrap.classList.remove("hide")
+            secondparent[i + 1].appendChild(cloneInWrap)
+        }
+    }
+
+}
+
+var currentCheckPageState = "off"
+
+function pullCheckList (deliveryID) {
+    if (currentCheckPageState === "off") {
+        checkListPage.classList.toggle("hide")
+        currentCheckPageState = "on"
+    setTimeout(() => {
+        checklistFromJSON(deliveryID)
+        checkListPage.style.transform= `translateY(-${wrapper.offsetHeight + 80}px)`
+    }, 10);
+    return;
+    }
+    setTimeout(() => {
+        checkListPage.classList.toggle("hide")
+    }, 200);
+    currentCheckPageState = "off"
+    checkListPage.style.transform = `translateY(${originalPosition}px)`;
+    
+}
+
+checkListButton.addEventListener("click", () => {
+    pullCheckList(forThisCurrent)
+})
 
 for (let i = 0; i < statusClick.length; i++) {
     let currentStatusClick = statusClick[i].querySelectorAll(".items")
