@@ -5,6 +5,8 @@ var jsonData = {}
     ,jsonKeysAmount = 0
 // for dynamic day select. will add function to control it later.
     ,daySelect = "2025-04-27"
+    ,currentDelivery = ""
+    ,GcurrentPage = 0
 
 
 // note to self: alway wrap everything in ".then" when work with json data,
@@ -24,9 +26,6 @@ var statusClick = document.querySelectorAll(".frontCard")
     ,back = document.querySelector(".goBack")
     ,frontpage = document.querySelector(".frontPage")
     ,menu = document.querySelector("#menu")
-    ,eventThing = 0
-    ,forThisCurrent = ""
-    ,currentPage = 0
 
 // create card from json file
 for (let i = 0; i < jsonKeysAmount; i++) {
@@ -86,7 +85,7 @@ function pullData () {
     frontpage.classList.toggle("hide")
     back.parentElement.parentElement.classList.toggle("hide")
     let forThis = this.id
-    currentPage = 0
+    currentDelivery = this.id
 
 var leftIn = document.querySelector(".leftTopSide").getElementsByTagName("div")
 var rightIn = document.querySelector(".rightTopSide").getElementsByTagName("div")
@@ -168,8 +167,6 @@ for (let i = 1; i < document.querySelectorAll(".itemsSections").length; i++) {
 }
 }
 
-document.querySelector(".itemsSections").classList.replace("itemsSections", "itemsSectionsOff")
-
 
 
 
@@ -186,17 +183,23 @@ function moveIt (side) {
 
     currentPageOffset += moveSize * side
 
-    var previousCurrentPage = currentPage + side
+    let previousCurrentPage = currentPage + side
 
     if (currentPage === totalPage) {
         currentPageOffset = 0
         currentPage = 0
+        GcurrentPage = currentPage
     }
 
     if (currentPage < 0) {
         currentPageOffset = -flipPage.offsetWidth * (totalPage - 1)
         currentPage = totalPage - 1
+        GcurrentPage = currentPage
     }
+
+    GcurrentPage = currentPage
+
+    console.log(GcurrentPage)
 
     bottomLeftCorner[previousCurrentPage].style.outline = "none"
     bottomLeftCorner[currentPage].style.outline = "2px solid black"
@@ -216,16 +219,17 @@ function moveIt (side) {
     })
 }
 
+document.querySelector(".itemsSections").classList.replace("itemsSections", "itemsSectionsOff")
 
 // decide to not do loop arrow for now cause it already took me 5 day and it still break
 // resort back to boring "go back if no data" type shyt
 
-
 var totalPage = document.querySelectorAll(".itemsSections").length
+    ,currentPage = 0 
 
 // console.log(totalPage)
+GcurrentPage = currentPage
 
-if (eventThing === 0) {
 rightArrow.addEventListener("click", () => {
     if (totalPage > 1){
     currentPage += 1
@@ -243,8 +247,6 @@ leftArrow.addEventListener("click", () => {
     return;
     }
 })
-eventThing += 1
-}
 
 let bottomLeftCorner = document.querySelectorAll(".temp p")
 /** @type {HTMLCollection} */
@@ -263,6 +265,7 @@ for (let i = 0; i < dotThings.length; i++) {
 function moveItByClick (number, fixedPosition) {
     let previousCurrentPage = currentPage
     currentPage = number
+    GcurrentPage = currentPage
     currentPageOffset = fixedPosition
     dotThings[previousCurrentPage].style.outline = "2px solid black"
     dotThings[previousCurrentPage].style.backgroundColor = "white"
@@ -291,9 +294,38 @@ if (window.innerWidth < 1000) {
     foldPart.classList.remove("hide")
 }
 
-forThisCurrent = forThis
-
 }
+
+for (let i = 0; i < statusClick.length; i++) {
+    let currentStatusClick = statusClick[i].querySelectorAll(".items")
+    if (currentStatusClick) {
+        for (let j = 0; j < currentStatusClick.length; j++) {
+            currentStatusClick[j].addEventListener("click", pullData)
+            currentStatusClick[j].addEventListener("click", () => {
+                console.log("hello")
+            })
+
+        }
+
+
+    }
+}
+let foldPart = document.querySelector(".foldPart")
+if (window.innerWidth < 1000) {
+foldPart.addEventListener("click", () => {
+    /** @type {HTMLElement} */
+    document.querySelector(".divFirstTop").classList.toggle("hide")
+    foldPart.firstElementChild.style.cssText = "transform: rotateX(-0.5turn);"
+    foldPart.lastElementChild.style.cssText = "transform: rotateX(-0.5turn);"
+    if (foldPart.children[1].textContent === "close"){
+        foldPart.children[1].textContent = "open"
+        foldPart.firstElementChild.style.cssText = "transform: rotateX(-1turn);"
+        foldPart.lastElementChild.style.cssText = "transform: rotateX(-1turn);"
+        return
+    }
+    foldPart.children[1].textContent = "close"
+})}
+
 
 var checkListPage = document.querySelector(".checkListPage")
 var originalPosition = checkListPage.offsetTop
@@ -304,7 +336,7 @@ function checklistFromJSON (deliveryID) {
     // this mean jsonData[delivery[number]]["to"]
     let customsCheckListKeys = Object.keys(customsCheckList)
     // get keys from previous variable above for access
-    let currentCheckListPage = customsCheckList[customsCheckListKeys[currentPage]]
+    let currentCheckListPage = customsCheckList[customsCheckListKeys[GcurrentPage]]
     // this mean jsonData[delivery[number]]["to"][customer${currentPage}]
     let checkListAcess = currentCheckListPage["checkLists"]
     // this mean jsonData[delivery[number]]["to"][customer${currentPage}]["checkLists"]
@@ -361,39 +393,8 @@ function pullCheckList (deliveryID) {
 }
 
 checkListButton.addEventListener("click", () => {
-    pullCheckList(forThisCurrent)
+    pullCheckList(currentDelivery)
 })
-
-for (let i = 0; i < statusClick.length; i++) {
-    let currentStatusClick = statusClick[i].querySelectorAll(".items")
-    if (currentStatusClick) {
-        for (let j = 0; j < currentStatusClick.length; j++) {
-            currentStatusClick[j].addEventListener("click", pullData)
-            currentStatusClick[j].addEventListener("click", () => {
-                console.log("hello")
-            })
-
-        }
-
-
-    }
-}
-let foldPart = document.querySelector(".foldPart")
-if (window.innerWidth < 1000) {
-foldPart.addEventListener("click", () => {
-    /** @type {HTMLElement} */
-    document.querySelector(".divFirstTop").classList.toggle("hide")
-    foldPart.firstElementChild.style.cssText = "transform: rotateX(-0.5turn);"
-    foldPart.lastElementChild.style.cssText = "transform: rotateX(-0.5turn);"
-    if (foldPart.children[1].textContent === "close"){
-        foldPart.children[1].textContent = "open"
-        foldPart.firstElementChild.style.cssText = "transform: rotateX(-1turn);"
-        foldPart.lastElementChild.style.cssText = "transform: rotateX(-1turn);"
-        return
-    }
-    foldPart.children[1].textContent = "close"
-})}
-
 
 
 
