@@ -7,11 +7,11 @@
         "round": 1,
         "from":"ch",
         "to": {
-            "customer1": {
+            "CP": {
                 "checkLists": {
-                    "driver": [],
-                    "QC": [],
-                    "document": []
+                    "driver": ["pallet1", "clean", "amount", "document"],
+                    "QC": ["pallet1", "clean", "amount"],
+                    "document": ["pallet1", "amount",  "document"]
                 },
                 "pallet1": [ "thing1", "thing2", "thing3", "thing4", "thing5"
                             ,"thing6"],
@@ -20,11 +20,11 @@
                 
         }
         ,
-            "customer2": {
+            "SCC": {
                 "checkLists": {
-                    "driver": [],
-                    "QC": [],
-                    "document": []
+                    "driver": ["pallet2", "clean", "amount", "document"],
+                    "QC": ["pallet2", "clean", "amount"],
+                    "document": ["pallet2", "amount",  "document"]
                 },
                 "pallet1": [ "thing1", "thing2", "thing3"],
                 "pallet2": [ "thing1", "thing2", "thing3"]
@@ -50,11 +50,11 @@
         "driver": "F",
         "from":"ch",
         "to": {
-            "customer1": {
+            "DIP": {
                 "checkLists": {
-                    "driver": [],
-                    "QC": [],
-                    "document": []
+                    "driver": ["pallet1", "clean", "amount", "document"],
+                    "QC": ["pallet1", "clean", "amount"],
+                    "document": ["pallet1", "amount",  "document"]
                 },
                 "pallet1": [ "thing1", "thing2", "thing3", "thing4", "thing5"
                 ,"thing6"
@@ -65,21 +65,21 @@
                 "pallet5": [ "thing1", "thing2", "thing3", "thing4"],
                 "pallet6": [ "thing1", "thing2", "thing3", "thing4"]
         },
-        "customer2": {
+        "TNN": {
             "checkLists": {
-                "driver": [],
-                "QC": [],
-                "document": []
+                "driver": ["pallet2", "clean", "amount", "document"],
+                "QC": ["pallet2", "clean2", "amount2"],
+                "document": ["pallet2", "amount",  "document"]
             },
             "pallet1": [ "thing1", "thing2", "thing3", "thing4", "thing5"
                         ,"thing6"]
             
     },
-        "customer3": {
+        "TKP": {
             "checkLists": {
-                "driver": [],
-                "QC": [],
-                "document": []
+                "driver": ["pallet3", "clean", "amount", "document"],
+                "QC": ["pallet3", "clean3", "amount3"],
+                "document": ["pallet3", "amount",  "document"]
             },
             "pallet1": [ "thing1", "thing2", "thing3"],
             "pallet2": [ "thing1", "thing2", "thing3"]
