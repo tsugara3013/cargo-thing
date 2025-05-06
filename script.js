@@ -5,12 +5,14 @@ var jsonData = {}
     ,jsonKeysAmount = 0
 // for dynamic day select. will add function to control it later.
     ,daySelect = "2025-04-27"
+// declare the 2 below as variable cause i don't understand how closure work
     ,currentDelivery = ""
     ,GcurrentPage = 0
 
 
 // note to self: alway wrap everything in ".then" when work with json data,
 // cause fetch take some time it can't catch up with immediate run
+// 6/5/25 ok so it turn out i don't need to do all these
 fetch(daySelect + ".json").then(Response => Response.json())
 .then(data => {
     jsonData = data
@@ -59,6 +61,9 @@ back.addEventListener("click", () => {
     if (thing) {
         thing.classList.replace("itemsSectionsOff", "itemsSections")
         document.querySelector(".middle").innerHTML = ""
+        currentCheckPageState = "off"
+        checkListPage.classList.add("hide")
+        checkListPage.style.transform = `translateY(${originalPosition}px)`
     }
     document.querySelector(".divFirstTop").classList.remove("hide")
 
@@ -71,11 +76,15 @@ menu.addEventListener("click", function() {
     back.parentElement.parentElement.classList.toggle("hide")
     var customersIn = document.querySelector(".temp")
     customersIn.innerHTML = ""
+    currentCheckPageState = "off"
     let thing = document.querySelector(".itemsSectionsOff")
 
     if (thing) {
         thing.classList.replace("itemsSectionsOff", "itemsSections")
         document.querySelector(".middle").innerHTML = ""
+        currentCheckPageState = "off"
+        checkListPage.classList.add("hide")
+        checkListPage.style.transform = `translateY(${originalPosition}px)`
     }
     document.querySelector(".divFirstTop").classList.remove("hide")
 })
@@ -199,7 +208,9 @@ function moveIt (side) {
 
     GcurrentPage = currentPage
 
-    console.log(GcurrentPage)
+    // all the GcurrentPage = can's use number here
+    // can't be += -1 or +=1 or = -1 all of them will break, i have to strictly use "currentPage" or i get different value
+    // IDK how that work this look terible for me as well i know.
 
     bottomLeftCorner[previousCurrentPage].style.outline = "none"
     bottomLeftCorner[currentPage].style.outline = "2px solid black"
@@ -229,6 +240,8 @@ var totalPage = document.querySelectorAll(".itemsSections").length
 
 // console.log(totalPage)
 GcurrentPage = currentPage
+// /\ for anything that look like above, i have to make it this way or else the value get different for some reason
+// see in moveit() function for more info /\
 
 rightArrow.addEventListener("click", () => {
     if (totalPage > 1){
@@ -302,7 +315,6 @@ for (let i = 0; i < statusClick.length; i++) {
         for (let j = 0; j < currentStatusClick.length; j++) {
             currentStatusClick[j].addEventListener("click", pullData)
             currentStatusClick[j].addEventListener("click", () => {
-                console.log("hello")
             })
 
         }
@@ -400,3 +412,138 @@ checkListButton.addEventListener("click", () => {
 
 })
 
+// let darkMode = true
+
+// document.querySelector("#themeToggle").addEventListener("click", () => {
+//   if (darkMode) {
+//     document.documentElement.style.setProperty('--clr-accbrown', 'rgb(138, 138, 138)');
+//     document.documentElement.style.setProperty('--clr-accgrey', 'rgb(25, 20, 18)');
+//   } else {
+//     document.documentElement.style.setProperty('--clr-accbrown', 'rgb(25, 20, 18)');
+//     document.documentElement.style.setProperty('--clr-accgrey', 'rgb(138, 138, 138)');
+//   }
+//   darkMode = !darkMode
+// })
+
+var openAddCarModalBTN = document.querySelector(".addCar")
+var closeAddCarModalBTN = document.querySelector(".addNo")
+var modalPage = document.querySelector("#addCarPage")
+
+openAddCarModalBTN.addEventListener("click", () => {
+    modalPage.style.display = "flex"
+    modalPage.showModal()
+})
+closeAddCarModalBTN.addEventListener("click", () => {
+    modalPage.close()
+    modalPage.style.display = "none"
+})
+
+let deliveryPrefab = {
+        "carType": "A",
+        "status": "plan",
+        "driver": "B",
+        "round": 0,
+        "from":"",
+        "to": {
+            "CP": {
+                "checkLists": {
+                    "driver": ["pallet1", "clean", "amount", "document"],
+                    "QC": ["pallet1", "clean", "amount"],
+                    "document": ["pallet1", "amount",  "document"]
+                },
+                "pallet1": [ "thing1", "thing2", "thing3", "thing4", "thing5"
+                            ,"thing6"],
+                "pallet2": [ "thing1", "thing2", "thing3", "thing4"],
+                "pallet3": [ "thing1", "thing2", "thing3", "thing4"]
+                
+        }
+        ,
+            "SCC": {
+                "checkLists": {
+                    "driver": ["pallet2", "clean", "amount", "document"],
+                    "QC": ["pallet2", "clean", "amount"],
+                    "document": ["pallet2", "amount",  "document"]
+                },
+                "pallet1": [ "thing1", "thing2", "thing3"],
+                "pallet2": [ "thing1", "thing2", "thing3"]
+            }
+        },
+        "start": "08:23",
+        "timeRecord": {
+            "customer1": ["timeTween","arriveTime", "waitTime","departTime"],
+            "customer2": ["timeTween","arriveTime", "waitTime", "departTime"]
+
+        },
+        "timeWaitTotal": "N/A",
+        "timeTakeTotal": "N/A",
+        "timeReturn": "18:42",
+        "timeTakeReturn": "03:22",
+        "end": "22:04"
+    }
+
+var addNewCar = document.querySelector(".addYes")
+var addCustomers = document.querySelectorAll(".addTarget") || undefined
+
+var currentCustomerAmount = 0
+var targetAddParent = document.querySelector(".addCustomers")
+
+function secondUp() {
+    if (this.value.length === 0){
+        this.remove()
+        addCustomers = document.querySelectorAll(".addTarget")
+        currentCustomerAmount -= 1
+    }
+}
+
+
+function addMore() {
+    addCustomers[currentCustomerAmount].addEventListener("input", (e) => {
+        if (e.target.value.length >= 1) {
+            appendCustomerPrefab = addCustomers[0].cloneNode(true)
+            appendCustomerPrefab.classList.remove("addTarget1")
+            appendCustomerPrefab.value = ""
+            currentCustomerAmount += 1
+            appendCustomerPrefab.classList.add("addTarget" + (currentCustomerAmount + 1))
+            targetAddParent.appendChild(appendCustomerPrefab)
+            addCustomers = document.querySelectorAll(".addTarget")
+            addMore()
+            if (currentCustomerAmount > 0) {
+                addCustomers[currentCustomerAmount].addEventListener("input", secondUp)
+            }
+            
+        }
+        
+    }, {once: true})
+    
+}
+
+addMore()
+
+addNewCar.addEventListener("click", () => {
+    let driverAdd = document.querySelector(".driverAdd") || undefined
+    let fromAdd = document.querySelector(".fromAdd") || undefined
+    let roundAdd = document.querySelector(".roundAdd") || undefined
+    let addTarget = document.querySelector(".addTarget") || undefined
+
+    if (!driverAdd.value || !fromAdd.value || !roundAdd.value || !addTarget.value) {
+        alert("some element not found")
+        return
+    }
+
+    alert("All inputs valid:\n" +
+        driverAdd.value + ", " +
+        fromAdd.value + ", " +
+        roundAdd.value + ", " +
+        addTarget.value
+    );
+
+    [driverAdd, fromAdd, roundAdd, addTarget].forEach(input => input.value = "")
+
+    while (document.querySelectorAll(".addTarget").length > 1) {
+        targetAddParent.removeChild(targetAddParent.lastElementChild)
+    }
+    currentCustomerAmount = 0
+    addMore()
+
+
+})

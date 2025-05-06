@@ -11,7 +11,7 @@
         <nav>
             <div class="navTopLeft">
                 <div id="menu">MENU</div>
-                <p>date</p>
+                <p id="themeToggle">date</p>
             </div>
             <div>
                 <p class="sysName"> Cargo Tracking <br>
@@ -42,6 +42,23 @@
                     <li class="editCar">edit</li>
                     <li class="deleteCar">delete</li>
                 </ul>
+
+                <dialog id="addCarPage">
+                    <p>driver</p>
+                    <input type="text" class="driverAdd">
+                    <p>from</p>
+                    <input type="text" class="fromAdd">
+                    <p>round</p>
+                    <input type="text" class="roundAdd">
+                    <p>customers</p>
+                    <div class="addCustomers">
+                        <input type="text" class="addTarget addTarget1">
+                    </div>
+                    <div id="underTheModal">
+                        <div class="addNo">cancle</div>
+                        <div class="addYes">create</div>
+                    </div>
+                </dialog>
                 
                 </div>
                 <hr>
@@ -91,6 +108,10 @@
             </div>
 
         </section>
+
+
+
+
         <section class="firstLayer hide">
             <div class="divFirstTop">
                 <div class="traficLight">

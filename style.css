@@ -386,10 +386,6 @@ img {
     margin: 20px;
 }
 
-.actualCheckList:hover {
-    transform: translateY(-30px);
-}
-
 .checkWrap {
     height: auto;
     width: 80%;
@@ -399,6 +395,89 @@ img {
 
 .actualCheckList p, .actualCheckList input {
     padding: 25px 20px;
+}
+
+#addCarPage {
+    background-color: var(--clr-accblue);
+    height: 100%;
+    width: 40%;
+    padding: 20px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 99999;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 5px;
+    outline: none;
+    border: none;
+    outline: 2px solid var(--clr-accgrey);
+}
+
+dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.addCustomers {
+    width: 50%;
+}
+
+#addCarPage div input {
+    width: 100%;
+    justify-self: center;
+}
+
+#addCarPage input {
+    appearance: none;
+    background-color: var(--clr-accbrown);
+    border: none;
+    outline: 2px solid var(--clr-accblue);
+    height: 30px;
+    width: 50%;
+    margin: 20px;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 20px;
+    border-radius: 10px;
+    flex-shrink: 0;
+}
+
+#addCarPage p {
+    width: auto;
+    height: auto;
+    font-size: 25px;
+    text-transform: uppercase;
+}
+
+#underTheModal {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    margin-top: 15px;
+}
+
+#underTheModal div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    background-color: none;
+    color: white;
+    width: 100px;
+    outline: 2px solid var(--clr-accbrown);
+    border-radius: 5px;
+}
+
+#underTheModal div:hover {
+    outline: none;
+    background-color: var(--clr-accbrown);
+    color: var(--clr-accgrey);
+    cursor: pointer;
+    transform: translateY(-5px);
 }
 
 /* 30/4/25 learn that mobile don't have cursor and stuck :hover style when click on any element with css:hover on it */
@@ -450,6 +529,10 @@ img {
         cursor: pointer;
         background-color: var(--clr-accblue);
         color: var(--clr-accbrown);
+    }
+
+    .actualCheckList:hover {
+        transform: translateY(-30px);
     }
 
 }
