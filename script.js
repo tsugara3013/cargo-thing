@@ -8,6 +8,7 @@ var jsonData = {}
 // declare the 2 below as variable cause i don't understand how closure work
     ,currentDelivery = ""
     ,GcurrentPage = 0
+    ,functionFromScope = {}
 
 
 // note to self: alway wrap everything in ".then" when work with json data,
@@ -301,11 +302,62 @@ function moveItByClick (number, fixedPosition) {
 
 }
 
+let startX = 0
+let swipeSection = document.querySelectorAll(".itemsSections")
+
+swipeSection.forEach(sect => {
+    sect.addEventListener("touchstart", (e) => {
+        startX = e.clientX
+    })
+    sect.addEventListener("touchend", (e) => {
+        let endX = e.clientX
+        let calX = endX - startX
+        console.log(calX)
+
+        if (calX > 150) {
+            currentPage -= 1
+            moveIt(1)
+            calX = 0
+        }
+        if (calX < -150) { 
+            currentPage += 1
+            moveIt(-1) 
+            calX = 0
+            
+        }
+    })
+})
+
 
 if (window.innerWidth < 1000) {
     document.querySelector(".divFirstTop").classList.add("hide")
     foldPart.classList.remove("hide")
+} else {
+    foldPart.classList.add("hide")
 }
+
+
+let resizeTimeout;
+
+window.addEventListener("resize", () => {
+  clearTimeout(resizeTimeout);
+  resizeTimeout = setTimeout(() => {
+    let thing = document.querySelector(".itemsSectionsOff");
+
+    if (thing) {
+      document.querySelector(".frontPage").classList.remove("hide");
+      document.querySelector(".firstLayer").classList.add("hide");
+      thing.classList.replace("itemsSectionsOff", "itemsSections");
+      document.querySelector(".middle").innerHTML = "";
+      currentCheckPageState = "off";
+      checkListPage.classList.add("hide");
+      checkListPage.style.transform = `translateY(${originalPosition}px)`;
+    }
+
+    document.querySelector(".divFirstTop").classList.remove("hide");
+  }, 150); // adjust delay if needed
+});
+
 
 }
 
@@ -322,21 +374,6 @@ for (let i = 0; i < statusClick.length; i++) {
 
     }
 }
-let foldPart = document.querySelector(".foldPart")
-if (window.innerWidth < 1000) {
-foldPart.addEventListener("click", () => {
-    /** @type {HTMLElement} */
-    document.querySelector(".divFirstTop").classList.toggle("hide")
-    foldPart.firstElementChild.style.cssText = "transform: rotateX(-0.5turn);"
-    foldPart.lastElementChild.style.cssText = "transform: rotateX(-0.5turn);"
-    if (foldPart.children[1].textContent === "close"){
-        foldPart.children[1].textContent = "open"
-        foldPart.firstElementChild.style.cssText = "transform: rotateX(-1turn);"
-        foldPart.lastElementChild.style.cssText = "transform: rotateX(-1turn);"
-        return
-    }
-    foldPart.children[1].textContent = "close"
-})}
 
 
 var checkListPage = document.querySelector(".checkListPage")
@@ -393,7 +430,7 @@ function pullCheckList (deliveryID) {
     setTimeout(() => {
         checklistFromJSON(deliveryID)
         checkListPage.style.transform= `translateY(-${wrapper.offsetHeight + 80}px)`
-    }, 10);
+    }, 5);
     return;
     }
     setTimeout(() => {
@@ -407,6 +444,50 @@ function pullCheckList (deliveryID) {
 checkListButton.addEventListener("click", () => {
     pullCheckList(currentDelivery)
 })
+
+let startY1 = 0
+let startY2 = 0
+let endY1 = 0
+let endY2 = 0
+
+    window.addEventListener("mousedown", (e) => {
+        if (document.querySelector(".firstLayer").classList.contains("hide")) { return}
+        startY1 = e.clientY
+        console.log("down")
+    })
+    window.addEventListener("mouseup", (e) => {
+        if (document.querySelector(".firstLayer").classList.contains("hide")) { return}
+        endY1 = e.clientY
+        calY = endY1 - startY1
+        console.log(calY)
+    })
+
+
+// let startX = 0
+// let swipeSection = document.querySelectorAll(".itemsSections")
+
+// swipeSection.forEach(sect => {
+//     sect.addEventListener("touchstart", (e) => {
+//         startX = e.clientX
+//     })
+//     sect.addEventListener("touchend", (e) => {
+//         let endX = e.clientX
+//         let calX = endX - startX
+//         console.log(calX)
+
+//         if (calX > 150) {
+//             currentPage -= 1
+//             moveIt(1)
+//             calX = 0
+//         }
+//         if (calX < -150) { 
+//             currentPage += 1
+//             moveIt(-1) 
+//             calX = 0
+            
+//         }
+//     })
+// })
 
 
 
@@ -424,6 +505,22 @@ checkListButton.addEventListener("click", () => {
 //   }
 //   darkMode = !darkMode
 // })
+
+let foldPart = document.querySelector(".foldPart")
+
+foldPart.addEventListener("click", () => {
+    /** @type {HTMLElement} */
+    document.querySelector(".divFirstTop").classList.toggle("hide")
+    foldPart.firstElementChild.style.cssText = "transform: rotateX(-0.5turn);"
+    foldPart.lastElementChild.style.cssText = "transform: rotateX(-0.5turn);"
+    if (foldPart.children[1].textContent === "close"){
+        foldPart.children[1].textContent = "open"
+        foldPart.firstElementChild.style.cssText = "transform: rotateX(-1turn);"
+        foldPart.lastElementChild.style.cssText = "transform: rotateX(-1turn);"
+        return
+    }
+    foldPart.children[1].textContent = "close"
+})
 
 var openAddCarModalBTN = document.querySelector(".addCar")
 var closeAddCarModalBTN = document.querySelector(".addNo")
