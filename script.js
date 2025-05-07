@@ -313,12 +313,12 @@ swipeSection.forEach(sect => {
         let endX = e.clientX
         let calX = endX - startX
 
-        if (calX > 150) {
+        if (calX > 80) {
             currentPage -= 1
             moveIt(1)
             calX = 0
         }
-        if (calX < -150) { 
+        if (calX < -80) { 
             currentPage += 1
             moveIt(-1) 
             calX = 0
@@ -466,7 +466,7 @@ window.addEventListener("touchend", (e) => {
         const calY1 = endY1 - startY1
         const calY2 = endY2 - startY2
 
-        if( calY1 < -300 && calY2 < -300) {
+        if( calY1 < -80 && calY2 < -80) {
             pullCheckList(currentDelivery)
         }
     }
