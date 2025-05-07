@@ -312,7 +312,6 @@ swipeSection.forEach(sect => {
     sect.addEventListener("touchend", (e) => {
         let endX = e.clientX
         let calX = endX - startX
-        console.log(calX)
 
         if (calX > 150) {
             currentPage -= 1
@@ -450,46 +449,28 @@ let startY2 = 0
 let endY1 = 0
 let endY2 = 0
 
-    window.addEventListener("mousedown", (e) => {
-        if (document.querySelector(".firstLayer").classList.contains("hide")) { return}
-        startY1 = e.clientY
-        console.log("down")
-    })
-    window.addEventListener("mouseup", (e) => {
-        if (document.querySelector(".firstLayer").classList.contains("hide")) { return}
-        endY1 = e.clientY
-        calY = endY1 - startY1
-        console.log(calY)
-    })
+window.addEventListener("touchstart", (e) => {
+    if (document.querySelector(".firstLayer").classList.contains("hide")) { return}
+    if (e.touches.length === 2) {
+        startY1 = e.touches[0].clientY
+        startY2 = e.touches[1].clientY
+    }
+})
+window.addEventListener("touchend", (e) => {
+    if (document.querySelector(".firstLayer").classList.contains("hide")) { return}
+    if (e.changedTouches.length === 2) {
+        endY1 = e.touches[0].clientY
+        endY2 = e.touches[1].clientY
 
 
-// let startX = 0
-// let swipeSection = document.querySelectorAll(".itemsSections")
+        const calY1 = endY1 - startY1
+        const calY2 = endY2 - startY2
 
-// swipeSection.forEach(sect => {
-//     sect.addEventListener("touchstart", (e) => {
-//         startX = e.clientX
-//     })
-//     sect.addEventListener("touchend", (e) => {
-//         let endX = e.clientX
-//         let calX = endX - startX
-//         console.log(calX)
-
-//         if (calX > 150) {
-//             currentPage -= 1
-//             moveIt(1)
-//             calX = 0
-//         }
-//         if (calX < -150) { 
-//             currentPage += 1
-//             moveIt(-1) 
-//             calX = 0
-            
-//         }
-//     })
-// })
-
-
+        if( calY1 < -300 && calY2 < -300) {
+            pullCheckList(currentDelivery)
+        }
+    }
+})
 
 })
 
