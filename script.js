@@ -90,7 +90,6 @@ menu.addEventListener("click", function() {
     document.querySelector(".divFirstTop").classList.remove("hide")
 })
 
-
 function pullData () {
     frontpage.classList.toggle("hide")
     back.parentElement.parentElement.classList.toggle("hide")
@@ -307,18 +306,18 @@ let swipeSection = document.querySelectorAll(".itemsSections")
 
 swipeSection.forEach(sect => {
     sect.addEventListener("touchstart", (e) => {
-        startX = e.clientX
+        startX = e.touches[0].clientX
     })
     sect.addEventListener("touchend", (e) => {
-        let endX = e.clientX
+        let endX = e.changedTouches[0].clientX
         let calX = endX - startX
 
-        if (calX > 80) {
+        if (calX > 150) {
             currentPage -= 1
             moveIt(1)
             calX = 0
         }
-        if (calX < -80) { 
+        if (calX < -150) { 
             currentPage += 1
             moveIt(-1) 
             calX = 0
@@ -414,11 +413,25 @@ function checklistFromJSON (deliveryID) {
             let cloneInWrap = inWrapPrefab.cloneNode(true)
             cloneInWrap.querySelector("p").textContent = checkListAcess[roleCheckList[i]][j]
             cloneInWrap.classList.remove("hide")
+            let checkBox = document.createElement("input")
+            checkBox.type = "checkbox"
+            // checkBox.checked = true <= this will need to chain with JSON & more function need adjust
+            cloneInWrap.prepend(checkBox)
+            let whoTick = document.createElement("div")
+            whoTick.classList.add("tickPerson")
+            whoTick.textContent = "me"
+            cloneInWrap.appendChild(whoTick)
             secondparent[i + 1].appendChild(cloneInWrap)
         }
+
     }
+    aListAll = document.querySelectorAll(".aList") //there are some problem on top that i'm not gonna fix
+    // it's about how there is an unneeded element but i make all these base on those  existing prefab now if i'm 
+    // going to fix it i need to rewrite all that, which i'm not gonna do
 
 }
+
+var aListAll
 
 var currentCheckPageState = "off"
 
@@ -445,31 +458,21 @@ checkListButton.addEventListener("click", () => {
 })
 
 let startY1 = 0
-let startY2 = 0
 let endY1 = 0
-let endY2 = 0
 
 window.addEventListener("touchstart", (e) => {
     if (document.querySelector(".firstLayer").classList.contains("hide")) { return}
-    if (e.touches.length === 2) {
         startY1 = e.touches[0].clientY
-        startY2 = e.touches[1].clientY
-    }
 })
 window.addEventListener("touchend", (e) => {
     if (document.querySelector(".firstLayer").classList.contains("hide")) { return}
-    if (e.changedTouches.length === 2) {
-        endY1 = e.touches[0].clientY
-        endY2 = e.touches[1].clientY
-
+        endY1 = e.changedTouches[0].clientY
 
         const calY1 = endY1 - startY1
-        const calY2 = endY2 - startY2
 
-        if( calY1 < -80 && calY2 < -80) {
+        if( calY1 < -600) {
             pullCheckList(currentDelivery)
         }
-    }
 })
 
 })
@@ -514,8 +517,16 @@ openAddCarModalBTN.addEventListener("click", () => {
 closeAddCarModalBTN.addEventListener("click", () => {
     modalPage.close()
     modalPage.style.display = "none"
+    let insideInput = document.querySelectorAll("#addCarPage input")
+    insideInput.forEach(thing => {
+        thing.value = ""
+    })
+    while (document.querySelectorAll(".addTarget").length > 1) {
+        targetAddParent.removeChild(targetAddParent.lastElementChild)
+    }
+    currentCustomerAmount = 0
+    addMore()
 })
-
 let deliveryPrefab = {
         "carType": "A",
         "status": "plan",
