@@ -337,6 +337,7 @@ if (window.innerWidth < 1000) {
 
 let resizeTimeout;
 
+if (window.innerWidth > 1000) {
 window.addEventListener("resize", () => {
   clearTimeout(resizeTimeout);
   resizeTimeout = setTimeout(() => {
@@ -354,8 +355,8 @@ window.addEventListener("resize", () => {
 
     document.querySelector(".divFirstTop").classList.remove("hide");
   }, 150); // adjust delay if needed
-});
-
+}, {once:true});
+}
 
 }
 
@@ -406,32 +407,58 @@ function checklistFromJSON (deliveryID) {
         firstParent.appendChild(sepperate)
         firstParent.appendChild(subWrap)
         subCheck.textContent = roleCheckList[i]
-        for (let j = 0; j < checkListAcess[roleCheckList[i]].length; j++) {
+        let currentCheckStateKeys = Object.keys(checkListAcess[roleCheckList[i]])
+        for (let j = 0; j < currentCheckStateKeys.length; j++) {
             /** @type {HTMLElement} */
             let inWrapPrefab = document.querySelector(".actualCheckList")
             let secondparent = document.querySelectorAll(".checkWrap")
             let cloneInWrap = inWrapPrefab.cloneNode(true)
-            cloneInWrap.querySelector("p").textContent = checkListAcess[roleCheckList[i]][j]
+            cloneInWrap.querySelector("p").textContent =  currentCheckStateKeys[j]
             cloneInWrap.classList.remove("hide")
             let checkBox = document.createElement("input")
             checkBox.type = "checkbox"
+            checkBox.checked = checkListAcess[roleCheckList[i]][currentCheckStateKeys[j]][0]
             // checkBox.checked = true <= this will need to chain with JSON & more function need adjust
             cloneInWrap.prepend(checkBox)
             let whoTick = document.createElement("div")
             whoTick.classList.add("tickPerson")
-            whoTick.textContent = "me"
+            whoTick.textContent = checkListAcess[roleCheckList[i]][currentCheckStateKeys[j]][1]
             cloneInWrap.appendChild(whoTick)
             secondparent[i + 1].appendChild(cloneInWrap)
         }
 
     }
-    aListAll = document.querySelectorAll(".aList") //there are some problem on top that i'm not gonna fix
+    checkWrapAll = document.querySelectorAll(".checkWrap")
+    aListAll = document.querySelectorAll(".aList")
+    //there are some problem on top that i'm not gonna fix
     // it's about how there is an unneeded element but i make all these base on those  existing prefab now if i'm 
     // going to fix it i need to rewrite all that, which i'm not gonna do
+    for (let k = 1; k < checkWrapAll.length; k++) {
+            foldCheckList(checkWrapAll[k])
+            aListAll[k].addEventListener("click", () => {
+                if (checkWrapAll[k].classList.contains("subCheckHide")) {
+                    checkWrapAll[k].classList.toggle("subCheckHide")
+                    checkWrapAll[k].style.height = "0"
+                    return
+                }
+                checkWrapAll[k].removeAttribute("style")
+                checkWrapAll[k].classList.toggle("subCheckHide")
+            })
+    }
 
 }
 
-var aListAll
+function foldCheckList (checkerPerson) {
+        checkerPerson.style.height = "0"
+    setTimeout(() => {
+        // let fromTop = checkerPerson.offsetTop
+        // for (let i = 0; i < checkerPerson.children.length; i++) {
+        //     checkerPerson.children[i].style.transform = `translateY(-${fromTop}px)`
+        // }
+        
+    }, 10);
+
+}
 
 var currentCheckPageState = "off"
 

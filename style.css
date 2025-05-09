@@ -410,7 +410,7 @@ input[type="checkbox"]:hover {
 input[type="checkbox"]:checked {
     background-color: green;
     border-radius: 50%;
-    outline: 2px solid var(--clr-accgrey);
+    outline: none;
 }
 
 .tickPerson {
@@ -418,10 +418,11 @@ input[type="checkbox"]:checked {
     justify-content: flex-end;
     justify-self: center;
     align-items: center;
-    color: var(--clr-accbrown);
-    font-weight: 800;
+    color: var(--clr-accgrey);
+    font-weight: 600;
     letter-spacing: 3px;
     padding: 10px;
+    text-shadow: 0 0 5px var(--clr-accbrown);
 }
 
 .checkWrap {
@@ -430,6 +431,11 @@ input[type="checkbox"]:checked {
     justify-self: center;
     overflow: hidden;
     transition: height 0.3 ease-out;
+    overflow: hidden;
+}
+
+.subCheckHide {
+    height: auto;
 }
 
 .actualCheckList p, .actualCheckList input {

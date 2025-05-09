@@ -9,9 +9,10 @@
         "to": {
             "CP": {
                 "checkLists": {
-                    "driver": {"pallet1": true, "clean":true, "amount":false, "document":true},
-                    "QC": {"pallet1":true, "clean":false, "amount":true},
-                    "document": {"pallet1":true, "amount":true,  "document":false}
+                    "driver": {"pallet1": [true, "they"], "clean":[true, "they"], "amount":[false, "N/A"], "document":[true, "they"]},
+                    "QC": {"pallet1":[true, "they"], "clean":[false, "N/A"], "amount":[true, "they"]},
+                    "document": {"pallet1":[true, "they"], "amount":[true, "they"],  "document":[false, "N/A"]},
+                    "sales": {"confirm":[true, "they"]}
                 },
                 "pallet1": [ "thing1", "thing2", "thing3", "thing4", "thing5"
                             ,"thing6"],
@@ -22,9 +23,10 @@
         ,
             "SCC": {
                 "checkLists": {
-                    "driver": {"pallet2": true, "clean":true, "amount":false, "document":true},
-                    "QC": {"pallet2":true, "clean":false, "amount":true},
-                    "document": {"pallet2":true, "amount":true,  "document":false}
+                    "driver": {"pallet2": [true, "they"], "clean":[true, "they"], "amount":[false, "N/A"], "document":[true, "they"]},
+                    "QC": {"pallet2":[true, "they"], "clean":[false, "N/A"], "amount":[true, "they"]},
+                    "document": {"pallet2":[true, "they"], "amount":[true, "they"],  "document":[false, "N/A"]},
+                    "sales": {"confirm":[true, "they"]}
                 },
                 "pallet1": [ "thing1", "thing2", "thing3"],
                 "pallet2": [ "thing1", "thing2", "thing3"]
@@ -52,9 +54,10 @@
         "to": {
             "DIP": {
                 "checkLists": {
-                    "driver": {"pallet1": true, "clean":true, "amount":false, "document":true},
-                    "QC": {"pallet1":true, "clean":false, "amount":true},
-                    "document": {"pallet1":true, "amount":true,  "document":false}
+                    "driver": {"pallet1": [true, "they"], "clean":[true, "they"], "amount":[false, "N/A"], "document":[true, "they"]},
+                    "QC": {"pallet1":[true, "they"], "clean":[false, "N/A"], "amount":[true, "they"]},
+                    "document": {"pallet1":[true, "they"], "amount":[true, "they"],  "document":[false, "N/A"]},
+                    "sales": {"confirm":[true, "they"]}
                 },
                 "pallet1": [ "thing1", "thing2", "thing3", "thing4", "thing5"
                 ,"thing6"
@@ -67,9 +70,10 @@
         },
         "TNN": {
             "checkLists": {
-                "driver": {"pallet2": true, "clean":true, "amount":false, "document":true},
-                "QC": {"pallet2":true, "clean2":false, "amount":true},
-                "document": {"pallet2":true, "amount":true,  "document":false}
+                "driver": {"pallet2": [false, "N/A"], "clean":[true, "they"], "amount":[false, "N/A"], "document":[true, "they"]},
+                "QC": {"pallet2":[false, "N/A"], "clean2":[false, "N/A"], "amount":[false, "N/A"]},
+                "document": {"pallet2":[true, "they"], "amount":[true, "they"],  "document":[false, "N/A"]},
+                "sales": {"confirm":[true, "they"]}
             },
             "pallet1": [ "thing1", "thing2", "thing3", "thing4", "thing5"
                         ,"thing6"]
@@ -77,9 +81,10 @@
     },
         "TKP": {
             "checkLists": {
-                "driver": {"pallet3": true, "clean":true, "amount":false, "document":true},
-                "QC": {"pallet3":true, "clean":false, "amount":true},
-                "document": {"pallet3":true, "amount":true,  "document":false}
+                "driver": {"pallet3": [false, "N/A"], "clean":[true, "they"], "amount":[false, "N/A"], "document":[true, "they"]},
+                "QC": {"pallet3":[true, "they"], "clean":[true, "they"], "amount":[true, "they"]},
+                "document": {"pallet3":[true, "they"], "amount":[false, "N/A"],  "document":[false, "N/A"]},
+                "sales": {"confirm":[true, "they"]}
             },
             "pallet1": [ "thing1", "thing2", "thing3"],
             "pallet2": [ "thing1", "thing2", "thing3"]
