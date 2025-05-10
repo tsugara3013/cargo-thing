@@ -32,6 +32,12 @@ var statusClick = document.querySelectorAll(".frontCard")
 
 // create card from json file
 for (let i = 0; i < jsonKeysAmount; i++) {
+
+    if (jsonData[jsonDataKeys[i]].getDelete === true) {
+        continue
+    // this for skip render if object is getting delete
+    }
+
     // at first i use getElementByClassName cause json file don't have dot
     // then i learn that i could use "." + name so i change
     let parent = document.querySelector("." + jsonData[jsonDataKeys[i]].status)
@@ -374,6 +380,8 @@ for (let i = 0; i < statusClick.length; i++) {
     }
 }
 
+window.pullData = pullData
+
 
 var checkListPage = document.querySelector(".checkListPage")
 var originalPosition = checkListPage.offsetTop
@@ -598,7 +606,7 @@ let deliveryPrefab = {
     }
 
 var addNewCar = document.querySelector(".addYes")
-var addCustomers = document.querySelectorAll(".addTarget") || undefined
+var addCustomers = document.querySelectorAll("#addTarget") || undefined
 
 var currentCustomerAmount = 0
 var targetAddParent = document.querySelector(".addCustomers")
@@ -606,7 +614,7 @@ var targetAddParent = document.querySelector(".addCustomers")
 function secondUp() {
     if (this.value.length === 0){
         this.remove()
-        addCustomers = document.querySelectorAll(".addTarget")
+        addCustomers = document.querySelectorAll("#addTarget")
         currentCustomerAmount -= 1
     }
 }
@@ -621,7 +629,7 @@ function addMore() {
             currentCustomerAmount += 1
             appendCustomerPrefab.classList.add("addTarget" + (currentCustomerAmount + 1))
             targetAddParent.appendChild(appendCustomerPrefab)
-            addCustomers = document.querySelectorAll(".addTarget")
+            addCustomers = document.querySelectorAll("#addTarget")
             addMore()
             if (currentCustomerAmount > 0) {
                 addCustomers[currentCustomerAmount].addEventListener("input", secondUp)
@@ -636,12 +644,14 @@ function addMore() {
 addMore()
 
 addNewCar.addEventListener("click", () => {
-    let driverAdd = document.querySelector(".driverAdd") || undefined
-    let fromAdd = document.querySelector(".fromAdd") || undefined
-    let roundAdd = document.querySelector(".roundAdd") || undefined
-    let addTarget = document.querySelector(".addTarget") || undefined
+    let driverAdd = document.querySelector("#driverAdd") || undefined
+    let fromAdd = document.querySelector("#fromAdd") || undefined
+    let roundAdd = document.querySelector("#roundAdd") || undefined
+    let addCarType = document.querySelector("#carTypeAdd") || undefined
+    let addTarget = document.querySelectorAll("#addTarget") || undefined
 
-    if (!driverAdd.value || !fromAdd.value || !roundAdd.value || !addTarget.value) {
+
+    if (!driverAdd.value || !fromAdd.value || !roundAdd.value || !addTarget[0].value) {
         alert("some element not found")
         return
     }
@@ -650,12 +660,14 @@ addNewCar.addEventListener("click", () => {
         driverAdd.value + ", " +
         fromAdd.value + ", " +
         roundAdd.value + ", " +
-        addTarget.value
+        addCarType.value + ", " + 
+        (addTarget.length - 1)
+        
     );
 
-    [driverAdd, fromAdd, roundAdd, addTarget].forEach(input => input.value = "")
+    [driverAdd, fromAdd, roundAdd, addCarType, addTarget[0]].forEach(input => input.value = "")
 
-    while (document.querySelectorAll(".addTarget").length > 1) {
+    while (document.querySelectorAll("#addTarget").length > 1) {
         targetAddParent.removeChild(targetAddParent.lastElementChild)
     }
     currentCustomerAmount = 0

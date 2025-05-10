@@ -2,7 +2,7 @@
     
     "delivery1": {
         "carType": "A",
-        "status": "arrived",
+        "status": "plan",
         "driver": "N",
         "round": 1,
         "from":"ch",
@@ -46,6 +46,7 @@
     },
 
     "delivery2": {
+        "getDelete" : false,
         "carType": "F",
         "status": "plan",
         "round": 1,

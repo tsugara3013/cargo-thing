@@ -2,9 +2,10 @@
 // all these is such a mess when i write code so i move it here
 
 var deleteCar = document.querySelectorAll(".deleteCar")
-var addCar = document.querySelector(".addCar")
 
 function selfRemove () {
+    console.log(jsonData)
+    jsonData[this.id].getDelete = true
     if (confirm("delete me?")){
     this.remove();
     }
@@ -22,29 +23,24 @@ function deleteDiv() {
     for (let i = 0; i < children.length; i++) {
         children[i].style.backgroundColor = "green"
         children[i].addEventListener("click", selfRemove)
+        children[i].removeEventListener("click", window.pullData)
+
+
         }
     }
     else { 
         for (let i = 0; i < children.length; i++) {
             children[i].removeEventListener("click", selfRemove)
+            children[i].addEventListener("click", window.pullData)
             children[i].style.backgroundColor = "var(--clr-accblue)"
             }
         }
-}
-
-function createCar () {
-    let newDiv = document.createElement("div");
-    newDiv.classList.add("items");
-    newDiv.innerText = "item";
-    planCards.appendChild(newDiv);
 }
 
 for (let i = 0; i < deleteCar.length; i ++) {
     deleteCar[i].addEventListener("click", deleteDiv)
 
 }
-
-addCar.addEventListener("click", createCar)
 
 
 // need to focus on some god know glitch i create, i don't even know when i make or where it come from but i need to fix that asap
