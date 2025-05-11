@@ -36,6 +36,24 @@
             <span>ABfect</span>
         </div>
         <section  class="frontPage">
+            <dialog id="addCarPage">
+                <label for="driverAdd">driver</label>
+                <input type="text" id="driverAdd">
+                <label for="fromAdd">from</label>
+                <input type="text" id="fromAdd">
+                <label for="roundAdd">round</label>
+                <input type="text" id="roundAdd">
+                <label for="carTypeAdd">car type</label>
+                <input type="text" id="carTypeAdd">
+                <label for="addTarget">customers</label>
+                <div class="addCustomers">
+                    <input type="text" id="addTarget" class = "addTarget1">
+                </div>
+                <div id="underTheModal">
+                    <div class="addNo">cancle</div>
+                    <div class="addYes">create</div>
+                </div>
+            </dialog>
             <div class="gridIn">
                 <div class="topGrid">
                 <h2> PLAN </h2> 
@@ -44,29 +62,9 @@
                     <li class="editCar">edit</li>
                     <li class="deleteCar">delete</li>
                 </ul>
-
-                <dialog id="addCarPage">
-                    <label for="driverAdd">driver</label>
-                    <input type="text" id="driverAdd">
-                    <label for="fromAdd">from</label>
-                    <input type="text" id="fromAdd">
-                    <label for="roundAdd">round</label>
-                    <input type="text" id="roundAdd">
-                    <label for="carTypeAdd">car type</label>
-                    <input type="text" id="carTypeAdd">
-                    <label for="addTarget">customers</label>
-                    <div class="addCustomers">
-                        <input type="text" id="addTarget" class = "addTarget1">
-                    </div>
-                    <div id="underTheModal">
-                        <div class="addNo">cancle</div>
-                        <div class="addYes">create</div>
-                    </div>
-                </dialog>
                 
                 </div>
                 <hr>
-                <div class="frontCard plan">
                     <div class="items hide">
                         <div class="travelTo">
                             <p>from</p>
@@ -76,6 +74,7 @@
                         <div class="timer">timer</div>
                         <div class="driver">driver</div>
                     </div>
+                <div class="frontCard plan">
                 </div>
             </div>
 
@@ -84,7 +83,7 @@
                 <h2>DEPARTS</h2>
                 
                 <ul class="choices">
-                    <li class="deleteCar">cancle</li>
+                    <li class="deleteCar">cancel</li>
                 </ul>
             </div>
             <hr>
@@ -109,6 +108,12 @@
                 <h2>FINISH DELIVERY</h2>
                 <hr>
                 <div class="frontCard finish"></div>
+            </div>
+
+            <div class="gridIn">
+                <h2>CANCEL</h2>
+                <hr>
+                <div class="frontCard cancel"></div>
             </div>
 
         </section>
@@ -200,5 +205,6 @@
 </body>
 
 <script src="script.js"></script>
-<script src="backUp.js"></script>
+<script src="secondScript.js"></script>
+<script src="pallets.js"></script>
 </html>

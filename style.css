@@ -226,6 +226,7 @@ img {
     grid-template-rows: 1fr 4fr 1fr;
     grid-template-columns: 1fr;
     justify-content: center;
+    color: var(--clr-accgrey);
 }
 
 .timer, .driver {

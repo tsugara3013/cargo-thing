@@ -46,9 +46,8 @@
     },
 
     "delivery2": {
-        "getDelete" : false,
         "carType": "F",
-        "status": "plan",
+        "status": "departs",
         "round": 1,
         "driver": "F",
         "from":"ch",
@@ -103,5 +102,5 @@
         "timeReturn": "12:10",
         "timeTakeReturn": "02:01",
         "end": "14:11"
-    }            
+    } 
 }

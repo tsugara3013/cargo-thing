@@ -24,19 +24,13 @@ fetch(daySelect + ".json").then(Response => Response.json())
 
 /** @type {HTMLElement} */
 var statusClick = document.querySelectorAll(".frontCard")
-    ,planCards = document.querySelector(".plan")
-    ,prefab = planCards.querySelector(".items")
+    ,prefab = document.querySelector(".items")
     ,back = document.querySelector(".goBack")
     ,frontpage = document.querySelector(".frontPage")
     ,menu = document.querySelector("#menu")
 
 // create card from json file
 for (let i = 0; i < jsonKeysAmount; i++) {
-
-    if (jsonData[jsonDataKeys[i]].getDelete === true) {
-        continue
-    // this for skip render if object is getting delete
-    }
 
     // at first i use getElementByClassName cause json file don't have dot
     // then i learn that i could use "." + name so i change
@@ -112,8 +106,8 @@ rightIn[1].textContent = jsonData[forThis]["status"]
 
 var customersIn = document.querySelector(".temp")
 customersIn.innerHTML = ""
-var cargoCustomers = jsonData[forThis]["to"]
-var cargoCustomersKeys = Object.keys(cargoCustomers)
+let cargoCustomers = jsonData[forThis]["to"]
+let cargoCustomersKeys = Object.keys(cargoCustomers)
 
 document.querySelector(".secondInnerTop").querySelector(".driver").textContent 
 = jsonData[forThis]["driver"] + jsonData[forThis]["round"]
@@ -175,9 +169,7 @@ for (let i = 1; i < document.querySelectorAll(".itemsSections").length; i++) {
 
     palletGrid.classList.remove("hide")
     palletGrid.textContent = palletsKeys[j]
-    palletGrid.addEventListener("click", () => {
-        alert(palletGrid.textContent)
-    })
+    palletGrid.addEventListener("click", window.palletData)
     
 }
 }
@@ -539,139 +531,4 @@ foldPart.addEventListener("click", () => {
         return
     }
     foldPart.children[1].textContent = "close"
-})
-
-var openAddCarModalBTN = document.querySelector(".addCar")
-var closeAddCarModalBTN = document.querySelector(".addNo")
-var modalPage = document.querySelector("#addCarPage")
-
-openAddCarModalBTN.addEventListener("click", () => {
-    modalPage.style.display = "flex"
-    modalPage.showModal()
-})
-closeAddCarModalBTN.addEventListener("click", () => {
-    modalPage.close()
-    modalPage.style.display = "none"
-    let insideInput = document.querySelectorAll("#addCarPage input")
-    insideInput.forEach(thing => {
-        thing.value = ""
-    })
-    while (document.querySelectorAll(".addTarget").length > 1) {
-        targetAddParent.removeChild(targetAddParent.lastElementChild)
-    }
-    currentCustomerAmount = 0
-    addMore()
-})
-let deliveryPrefab = {
-        "carType": "A",
-        "status": "plan",
-        "driver": "B",
-        "round": 0,
-        "from":"",
-        "to": {
-            "CP": {
-                "checkLists": {
-                    "driver": ["pallet1", "clean", "amount", "document"],
-                    "QC": ["pallet1", "clean", "amount"],
-                    "document": ["pallet1", "amount",  "document"]
-                },
-                "pallet1": [ "thing1", "thing2", "thing3", "thing4", "thing5"
-                            ,"thing6"],
-                "pallet2": [ "thing1", "thing2", "thing3", "thing4"],
-                "pallet3": [ "thing1", "thing2", "thing3", "thing4"]
-                
-        }
-        ,
-            "SCC": {
-                "checkLists": {
-                    "driver": ["pallet2", "clean", "amount", "document"],
-                    "QC": ["pallet2", "clean", "amount"],
-                    "document": ["pallet2", "amount",  "document"]
-                },
-                "pallet1": [ "thing1", "thing2", "thing3"],
-                "pallet2": [ "thing1", "thing2", "thing3"]
-            }
-        },
-        "start": "08:23",
-        "timeRecord": {
-            "customer1": ["timeTween","arriveTime", "waitTime","departTime"],
-            "customer2": ["timeTween","arriveTime", "waitTime", "departTime"]
-
-        },
-        "timeWaitTotal": "N/A",
-        "timeTakeTotal": "N/A",
-        "timeReturn": "18:42",
-        "timeTakeReturn": "03:22",
-        "end": "22:04"
-    }
-
-var addNewCar = document.querySelector(".addYes")
-var addCustomers = document.querySelectorAll("#addTarget") || undefined
-
-var currentCustomerAmount = 0
-var targetAddParent = document.querySelector(".addCustomers")
-
-function secondUp() {
-    if (this.value.length === 0){
-        this.remove()
-        addCustomers = document.querySelectorAll("#addTarget")
-        currentCustomerAmount -= 1
-    }
-}
-
-
-function addMore() {
-    addCustomers[currentCustomerAmount].addEventListener("input", (e) => {
-        if (e.target.value.length >= 1) {
-            appendCustomerPrefab = addCustomers[0].cloneNode(true)
-            appendCustomerPrefab.classList.remove("addTarget1")
-            appendCustomerPrefab.value = ""
-            currentCustomerAmount += 1
-            appendCustomerPrefab.classList.add("addTarget" + (currentCustomerAmount + 1))
-            targetAddParent.appendChild(appendCustomerPrefab)
-            addCustomers = document.querySelectorAll("#addTarget")
-            addMore()
-            if (currentCustomerAmount > 0) {
-                addCustomers[currentCustomerAmount].addEventListener("input", secondUp)
-            }
-            
-        }
-        
-    }, {once: true})
-    
-}
-
-addMore()
-
-addNewCar.addEventListener("click", () => {
-    let driverAdd = document.querySelector("#driverAdd") || undefined
-    let fromAdd = document.querySelector("#fromAdd") || undefined
-    let roundAdd = document.querySelector("#roundAdd") || undefined
-    let addCarType = document.querySelector("#carTypeAdd") || undefined
-    let addTarget = document.querySelectorAll("#addTarget") || undefined
-
-
-    if (!driverAdd.value || !fromAdd.value || !roundAdd.value || !addTarget[0].value) {
-        alert("some element not found")
-        return
-    }
-
-    alert("All inputs valid:\n" +
-        driverAdd.value + ", " +
-        fromAdd.value + ", " +
-        roundAdd.value + ", " +
-        addCarType.value + ", " + 
-        (addTarget.length - 1)
-        
-    );
-
-    [driverAdd, fromAdd, roundAdd, addCarType, addTarget[0]].forEach(input => input.value = "")
-
-    while (document.querySelectorAll("#addTarget").length > 1) {
-        targetAddParent.removeChild(targetAddParent.lastElementChild)
-    }
-    currentCustomerAmount = 0
-    addMore()
-
-
 })
