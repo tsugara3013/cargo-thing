@@ -78,12 +78,21 @@ hr {
 }
 
 nav {
-    display: flex;
+    display: grid;
     gap: 10px;
-    justify-content: space-between;
+    grid-template-columns: 1fr 3fr 1fr;
+    justify-content: center;
+    align-items: center;
     padding: 0 50px;
     padding-top: 20px;
 }
+
+.navMiddle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .navTopLeft {
     height: auto;
     width: auto;
@@ -143,14 +152,13 @@ span {
     background: none;
 }
 
-.bottomMenu {
+.bottomMenu, #palletBottomMenu {
     position: fixed;
     bottom: 0px;
     left: 0;
     right: 0;
     top: 90%;
     padding: 20px;
-
     background: none;
     display: flex;
     justify-content: space-around;
@@ -187,7 +195,6 @@ img {
     mix-blend-mode: luminosity;
     background: none;
     opacity: 0.3;
-    margin-right: 200px;
 }
 
 #logo span {
@@ -298,8 +305,6 @@ img {
     padding: 50px 20px;
     background-color: var(--clr-accgrey);
     flex-shrink: 0;
-    margin: 20px 0;
-    outline: 5px solid var(--clr-accbrown);
 }
 
 .itemsSections .items{
@@ -316,6 +321,7 @@ img {
     display: flex;
     justify-content: flex-start;
     overflow: hidden;
+    gap: 20px;
 }
 
 .flipPages .middle {
@@ -475,7 +481,7 @@ dialog::backdrop {
     justify-self: center;
 }
 
-#addCarPage input {
+#addCarPage input, #palletPage input {
     appearance: none;
     background-color: var(--clr-accbrown);
     border: none;
@@ -526,6 +532,145 @@ dialog::backdrop {
     transform: translateY(-5px);
 }
 
+#palletPage {
+    outline: 2px solid var(--clr-accgrey);
+    height: auto;
+    width: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    justify-self: center;
+    flex-direction: column;
+}
+
+#palletPage #inputRoll {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr;
+    justify-content: center;
+    align-items: center;
+    padding: 0 50px;
+}
+
+#palletPage #inputRoll div {
+    background-color: var(--clr-accblue);
+    padding: 1rem;
+    height: auto;
+    width: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 700;
+}
+
+#palletPage #inputRoll input {
+    justify-self: center;
+    width: 80%;
+}
+
+#palletPage ul {
+    display: flex;
+    justify-content: space-around;
+    height: auto;
+    width: 100%;
+}
+
+#palletBottomMenu li {
+    outline: 1px solid var(--clr-accblue);
+    height: 6rem;
+    width: 300px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    font-size: 20px;
+    text-transform: uppercase;
+    font-weight: 700;
+    background-color: var(--clr-accbrown);
+}
+
+#palletCustomerName {
+    height: 2rem;
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2rem;
+    letter-spacing: 3px;
+    font-size: 2rem;
+    outline: 2px solid var(--clr-accgrey);
+}
+
+#palletPage  .rollsList{
+    display: flex;
+    gap: 4px;
+    width: 100%;
+    padding-bottom: 250px;
+    overflow: hidden;
+}
+
+.rollsListPage {
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    width: 100%;
+}
+
+.rollsListPage li {
+    padding: 8px;
+    display: grid;
+    grid-template-columns: 1fr 4fr 1fr;
+    gap: 3rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.deleteRoll {
+    outline: 2px solid var(--clr-accred);
+    color: var(--clr-accgrey);
+    padding: 4px;
+}
+
+.editRoll {
+    outline: 2px solid var(--clr-accblue);
+    color: var(--clr-accgrey);
+    padding: 4px;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#topRollList {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr;
+}
+
+#topRollList div {
+    justify-self: center;
+    align-self: center;
+}
+
+#rightPallet, #leftPallet {
+    outline: 2px solid var(--clr-accblue);
+    aspect-ratio: 1;
+    height: 3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+}
+
+.rolls p{
+    display: flex;
+    justify-content: center;
+}
+
+
 /* 30/4/25 learn that mobile don't have cursor and stuck :hover style when click on any element with css:hover on it */
 /* by take all css with :hover in this block below it disabled that for device that don't support :hover */
 
@@ -542,7 +687,7 @@ dialog::backdrop {
         color: var(--clr-accbrown);
     }
     
-    .bottomMenu div:hover {
+    .bottomMenu div:hover, #palletBottomMenu li:hover, #palletPage #inputRoll div:hover {
         cursor: pointer;
         background-color: var(--clr-accblue);
         color: var(--clr-accbrown);
@@ -555,6 +700,14 @@ dialog::backdrop {
     }
 
     .flipPages #leftArrow:hover, .flipPages #rightArrow:hover {
+        color: var(--clr-accbrown);
+        outline: none;
+        background-color: var(--clr-accgrey);
+        
+    }
+
+    #rightPallet:hover, #leftPallet:hover{
+        cursor: pointer;
         color: var(--clr-accbrown);
         outline: none;
         background-color: var(--clr-accgrey);
@@ -576,5 +729,17 @@ dialog::backdrop {
         background-color: var(--clr-accblue);
         color: var(--clr-accbrown);
     }
+
+    .deleteRoll:hover {
+        cursor: pointer;
+        color: var(--clr-accbrown);
+        background-color: var(--clr-accred);
+    }
+
+    .editRoll:hover {
+    cursor: pointer;        
+    color: var(--clr-accbrown);
+    background-color: var(--clr-accblue);
+}
 
 }

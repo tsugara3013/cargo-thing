@@ -3,6 +3,10 @@ var deleteCar = document.querySelectorAll(".deleteCar")
 function selfRemove () {
     jsonData[this.id].status = "cancel"
     if (confirm("delete me?")){
+        if (this.parentElement.getElementsByClassName("items").length >= 1) {
+            console.log(this.parentElement.classList)
+            this.parentElement.parentElement.querySelector(".deleteCar").classList.remove("removeMode")
+        }
     let newParent = document.querySelector(`.${jsonData[this.id].status}`)
     newParent.appendChild(this)
     this.addEventListener("click", window.pullData)
@@ -18,7 +22,6 @@ function selfRemove () {
     });
     }
 }
-
 
 function deleteDiv() {
     /** @type {HTMLElement} */

@@ -8,7 +8,17 @@ var jsonData = {}
 // declare the 2 below as variable cause i don't understand how closure work
     ,currentDelivery = ""
     ,GcurrentPage = 0
-    ,functionFromScope = {}
+    /** @type {HTMLElement} */
+var flipPage = ""
+var moveSize = ""
+var currentCustomer = ""
+var mobileCustomerDisplay = ""
+var totalPage = ""
+var currentPageOffset = 0
+var bottomLeftCorner = ""
+var dotThings = ""
+var startX = 0
+var swipeSection = document.querySelectorAll(".itemsSections")
 
 
 // note to self: alway wrap everything in ".then" when work with json data,
@@ -24,7 +34,7 @@ fetch(daySelect + ".json").then(Response => Response.json())
 
 /** @type {HTMLElement} */
 var statusClick = document.querySelectorAll(".frontCard")
-    ,prefab = document.querySelector(".items")
+    ,prefab = document.querySelector(".itemsPrefab")
     ,back = document.querySelector(".goBack")
     ,frontpage = document.querySelector(".frontPage")
     ,menu = document.querySelector("#menu")
@@ -37,6 +47,7 @@ for (let i = 0; i < jsonKeysAmount; i++) {
     let parent = document.querySelector("." + jsonData[jsonDataKeys[i]].status)
     /** @type {HTMLDivElement} */
     let newDiv = prefab.cloneNode(true)
+    newDiv.classList.replace("itemsPrefab", "items")
     parent.appendChild(newDiv)
     newDiv.id = jsonDataKeys[i]
     newDiv.classList.remove("hide")
@@ -65,12 +76,15 @@ back.addEventListener("click", () => {
         currentCheckPageState = "off"
         checkListPage.classList.add("hide")
         checkListPage.style.transform = `translateY(${originalPosition}px)`
+        foldPart.children[1].textContent = "open"
+        foldPart.firstElementChild.style.cssText = "transform: rotateX(-1turn);"
+        foldPart.lastElementChild.style.cssText = "transform: rotateX(-1turn);"
+        document.querySelector("#palletPage").classList.add("hide")
     }
     document.querySelector(".divFirstTop").classList.remove("hide")
 
 })
 }
-
 // temporary for toggle
 menu.addEventListener("click", function() {
     frontpage.classList.toggle("hide")
@@ -86,6 +100,13 @@ menu.addEventListener("click", function() {
         currentCheckPageState = "off"
         checkListPage.classList.add("hide")
         checkListPage.style.transform = `translateY(${originalPosition}px)`
+        foldPart.children[1].textContent = "open"
+        foldPart.firstElementChild.style.cssText = "transform: rotateX(-1turn);"
+        foldPart.lastElementChild.style.cssText = "transform: rotateX(-1turn);"
+        if (!document.querySelector("#palletPage").classList.contains("hide")) {
+            document.querySelector("#palletPage").classList.add("hide")
+            back.parentElement.parentElement.classList.toggle("hide")
+        }
     }
     document.querySelector(".divFirstTop").classList.remove("hide")
 })
@@ -137,7 +158,7 @@ for (let i = 0; i < cargoCustomersKeys.length; i++) {
     wrapper.appendChild(newPage)
         /** @type {HTMLCollection} */
         var pages = document.querySelectorAll(".itemsSections")
-        var currentPageOffset = 0
+        currentPageOffset = 0
 
         pages.forEach(page => {
             page.style.transform = `translateX(${currentPageOffset}px)`
@@ -181,91 +202,31 @@ let rightArrow = document.querySelector("#rightArrow")
 let leftArrow = document.querySelector("#leftArrow")
 
 /** @type {HTMLElement} */
-var flipPage = document.querySelector(".wrapper")
-var moveSize = flipPage.offsetWidth
-var currentCustomer = document.querySelectorAll(".customers")
-var mobileCustomerDisplay = document.querySelector(".customerPages").querySelector("div")
-
-function moveIt (side) {
-
-    currentPageOffset += moveSize * side
-
-    let previousCurrentPage = currentPage + side
-
-    if (currentPage === totalPage) {
-        currentPageOffset = 0
-        currentPage = 0
-        GcurrentPage = currentPage
-    }
-
-    if (currentPage < 0) {
-        currentPageOffset = -flipPage.offsetWidth * (totalPage - 1)
-        currentPage = totalPage - 1
-        GcurrentPage = currentPage
-    }
-
-    GcurrentPage = currentPage
-
-    // all the GcurrentPage = can's use number here
-    // can't be += -1 or +=1 or = -1 all of them will break, i have to strictly use "currentPage" or i get different value
-    // IDK how that work this look terible for me as well i know.
-
-    bottomLeftCorner[previousCurrentPage].style.outline = "none"
-    bottomLeftCorner[currentPage].style.outline = "2px solid black"
-    dotThings[previousCurrentPage].style.outline = "2px solid black"
-    dotThings[previousCurrentPage].style.backgroundColor = "white"
-    dotThings[currentPage].style.outline = "2px solid white"
-    dotThings[currentPage].style.backgroundColor = "var(--clr-accblue)"
-    mobileCustomerDisplay.textContent = currentCustomer[currentPage].textContent
-
-    /** @type {HTMLCollection} */
-    pages = document.querySelectorAll(".itemsSections") 
-    // 1/5/25 got me so mad i have to change css width of them to 100% so there are no problem in calculation
-
-    pages.forEach(page => {
-        page.style.transform = `translateX(${currentPageOffset}px)`
-
-    })
-}
+flipPage = document.querySelector(".wrapper")
+moveSize = flipPage.offsetWidth
+currentCustomer = document.querySelectorAll(".customers")
+mobileCustomerDisplay = document.querySelector(".customerPages").querySelector("div")
 
 document.querySelector(".itemsSections").classList.replace("itemsSections", "itemsSectionsOff")
 
 // decide to not do loop arrow for now cause it already took me 5 day and it still break
 // resort back to boring "go back if no data" type shyt
 
-var totalPage = document.querySelectorAll(".itemsSections").length
-    ,currentPage = 0 
+totalPage = document.querySelectorAll(".itemsSections").length
+GcurrentPage = 0 
 
-// console.log(totalPage)
-GcurrentPage = currentPage
-// /\ for anything that look like above, i have to make it this way or else the value get different for some reason
-// see in moveit() function for more info /\
+rightArrow.removeEventListener("click", forRightArrow)
+rightArrow.addEventListener("click", forRightArrow)
+leftArrow.removeEventListener("click", forLeftArrow)
+leftArrow.addEventListener("click", forLeftArrow)
 
-rightArrow.addEventListener("click", () => {
-    if (totalPage > 1){
-    currentPage += 1
-    moveIt(-1)
-    // console.log(currentPage)
-    return;
-    }
-})
-
-leftArrow.addEventListener("click", () => {
-    if (totalPage > 1) {
-    currentPage -= 1
-    moveIt(1)
-    // console.log(currentPage)
-    return;
-    }
-})
-
-let bottomLeftCorner = document.querySelectorAll(".temp p")
+bottomLeftCorner = document.querySelectorAll(".temp p")
 /** @type {HTMLCollection} */
-let dotThings = document.querySelectorAll(".moreHelp")
-    bottomLeftCorner[currentPage].style.outline = "2px solid black"
-    dotThings[currentPage].style.outline = "2px solid white"
-    dotThings[currentPage].style.backgroundColor = "var(--clr-accblue)"
-    mobileCustomerDisplay.textContent = currentCustomer[currentPage].textContent
+dotThings = document.querySelectorAll(".moreHelp")
+    bottomLeftCorner[GcurrentPage].style.outline = "2px solid black"
+    dotThings[GcurrentPage].style.outline = "2px solid white"
+    dotThings[GcurrentPage].style.backgroundColor = "var(--clr-accblue)"
+    mobileCustomerDisplay.textContent = currentCustomer[GcurrentPage].textContent
 
 for (let i = 0; i < dotThings.length; i++) {
     dotThings[i].addEventListener("click", () => {
@@ -274,24 +235,24 @@ for (let i = 0; i < dotThings.length; i++) {
 }
 
 function moveItByClick (number, fixedPosition) {
-    let previousCurrentPage = currentPage
-    currentPage = number
-    GcurrentPage = currentPage
+    let previousCurrentPage = GcurrentPage
+    GcurrentPage = number
+    GcurrentPage = GcurrentPage
     currentPageOffset = fixedPosition
     dotThings[previousCurrentPage].style.outline = "2px solid black"
     dotThings[previousCurrentPage].style.backgroundColor = "white"
-    dotThings[currentPage].style.outline = "2px solid white"
-    dotThings[currentPage].style.backgroundColor = "var(--clr-accblue)"
+    dotThings[GcurrentPage].style.outline = "2px solid white"
+    dotThings[GcurrentPage].style.backgroundColor = "var(--clr-accblue)"
     bottomLeftCorner[previousCurrentPage].style.outline = "none"
-    bottomLeftCorner[currentPage].style.outline = "2px solid black"
-    mobileCustomerDisplay.textContent = currentCustomer[currentPage].textContent
+    bottomLeftCorner[GcurrentPage].style.outline = "2px solid black"
+    mobileCustomerDisplay.textContent = currentCustomer[GcurrentPage].textContent
 
     /** @type {HTMLCollection} */
     pages = document.querySelectorAll(".itemsSections") 
     // 1/5/25 got me so mad i have to change css width of them to 100% so there are no problem in calculation
 
     pages.forEach(page => {
-        page.style.transform = `translateX(${fixedPosition}px)`
+        page.style.transform = `translateX(${fixedPosition - (20*GcurrentPage)}px)`
 
     })
 
@@ -299,8 +260,8 @@ function moveItByClick (number, fixedPosition) {
 
 }
 
-let startX = 0
-let swipeSection = document.querySelectorAll(".itemsSections")
+startX = 0
+swipeSection = document.querySelectorAll(".itemsSections")
 
 swipeSection.forEach(sect => {
     sect.addEventListener("touchstart", (e) => {
@@ -311,12 +272,12 @@ swipeSection.forEach(sect => {
         let calX = endX - startX
 
         if (calX > 150) {
-            currentPage -= 1
+            GcurrentPage -= 1
             moveIt(1)
             calX = 0
         }
         if (calX < -150) { 
-            currentPage += 1
+            GcurrentPage += 1
             moveIt(-1) 
             calX = 0
             
@@ -349,6 +310,7 @@ window.addEventListener("resize", () => {
       currentCheckPageState = "off";
       checkListPage.classList.add("hide");
       checkListPage.style.transform = `translateY(${originalPosition}px)`;
+      document.querySelector("#palletPage").classList.add("hide")
     }
 
     document.querySelector(".divFirstTop").classList.remove("hide");
@@ -357,6 +319,64 @@ window.addEventListener("resize", () => {
 }
 
 }
+
+function moveIt (side) {
+
+    currentPageOffset += moveSize * side
+
+    let previousCurrentPage = GcurrentPage + side
+
+    if (GcurrentPage === totalPage) {
+        currentPageOffset = 0
+        GcurrentPage = 0
+    }
+
+    if (GcurrentPage < 0) {
+        currentPageOffset = -flipPage.offsetWidth * (totalPage - 1)
+        GcurrentPage = totalPage - 1
+    }
+
+    // all the GcurrentPage = can's use number here
+    // can't be += -1 or +=1 or = -1 all of them will break, i have to strictly use "currentPage" or i get different value
+    // IDK how that work this look terible for me as well i know.
+
+    bottomLeftCorner[previousCurrentPage].style.outline = "none"
+    bottomLeftCorner[GcurrentPage].style.outline = "2px solid black"
+    dotThings[previousCurrentPage].style.outline = "2px solid black"
+    dotThings[previousCurrentPage].style.backgroundColor = "white"
+    dotThings[GcurrentPage].style.outline = "2px solid white"
+    dotThings[GcurrentPage].style.backgroundColor = "var(--clr-accblue)"
+    mobileCustomerDisplay.textContent = currentCustomer[GcurrentPage].textContent
+
+    /** @type {HTMLCollection} */
+    pages = document.querySelectorAll(".itemsSections") 
+    // 1/5/25 got me so mad i have to change css width of them to 100% so there are no problem in calculation
+
+    pages.forEach(page => {
+        page.style.transform = `translateX(${currentPageOffset - (20*GcurrentPage)}px)`
+
+    })
+}
+
+function forRightArrow () {
+    if (totalPage > 1){
+    GcurrentPage += 1
+    moveIt(-1)
+    // console.log(currentPage)
+    return;
+    }
+}
+
+function forLeftArrow () {
+    if (totalPage > 1) {
+    GcurrentPage -= 1
+    moveIt(1)
+    // console.log(currentPage)
+    return;
+    }
+}
+
+
 
 for (let i = 0; i < statusClick.length; i++) {
     let currentStatusClick = statusClick[i].querySelectorAll(".items")

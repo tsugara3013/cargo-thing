@@ -14,7 +14,7 @@
                 <div id="menu">MENU</div>
                 <p id="themeToggle">date</p>
             </div>
-            <div>
+            <div class="navMiddle">
                 <p class="sysName"> Cargo Tracking <br>
                     Webpage
                 </p>
@@ -30,11 +30,44 @@
 
         </nav>
         <hr>
+        <!-- inside pallet -->
+        <section id="palletPage" class="hide">
+
+        <div id="topRollList">                    
+            <div id="leftPallet">&lt;</div>
+            <div id="palletCustomerName">
+                customername
+            </div>
+            <div id="rightPallet">&gt;</div>
+        </div>
+        
+        <div id="inputRoll">
+            <label for="addRoll" class="center">input</label>
+            <input type="text" name="addRoll" id="addRoll">
+            <div class="changeInputMode">manual</div>
+            
+        </div>
+
+        <div class="rollsList">
+
+        </div>
+
+        <div id="palletBottomMenu">
+            <ul>
+                <li class="returnBack">return</li>
+                <li>thing1</li>
+                <li class="addPallet">add</li>
+            </ul>
+        </div>
+
+        </section>
+
         <div id="logo" class="hide">
             by
             <img src="" alt="">
             <span>ABfect</span>
         </div>
+
         <section  class="frontPage">
             <dialog id="addCarPage">
                 <label for="driverAdd">driver</label>
@@ -65,7 +98,7 @@
                 
                 </div>
                 <hr>
-                    <div class="items hide">
+                    <div class="itemsPrefab hide">
                         <div class="travelTo">
                             <p>from</p>
                             <p>===></p>
